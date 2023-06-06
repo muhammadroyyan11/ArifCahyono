@@ -10,5 +10,8 @@
     <color name="orange">#FF9800</color>
     <color name="primary">#003142</color>
 
+    <color name="colorPrimaryDark">#001342</color>
+    <color name="colorPrimary">#001342</color>
+
 
 </resources>

@@ -69,7 +69,7 @@ class RegisterActivity : AppCompatActivity() {
                 val respon = response.body()!!
                 pbRegister.visibility = View.GONE
 
-                if (respon.succes == 1){
+                if (respon.success == 1){
                     val intent  = Intent(this@RegisterActivity, LoginActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
                     startActivity(intent)

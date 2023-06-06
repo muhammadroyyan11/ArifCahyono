@@ -8,6 +8,10 @@ class SharedPref(activity: Activity) {
 
     val login = "login"
 
+    val nama = "name"
+    val phone = "phone"
+    val email = "email"
+
     private lateinit var sharedPreferences: SharedPreferences
     val mypref = "MY_PREF"
 
@@ -21,5 +25,13 @@ class SharedPref(activity: Activity) {
 
     fun getStatusLogin():Boolean {
         return sharedPreferences.getBoolean(login, false)
+    }
+
+    fun setString(key: String, value: String){
+        sharedPreferences.edit().putString(key, value).apply()
+    }
+
+    fun getString(key: String): String {
+        return sharedPreferences.getString(key, "")!!
     }
 }
