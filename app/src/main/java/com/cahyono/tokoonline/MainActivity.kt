@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.activity.LoginActivity
+import com.cahyono.tokoonline.activity.MasukActivity
 import com.cahyono.tokoonline.databinding.ActivityMainBinding
 import com.cahyono.tokoonline.fragment.AkunFragment
 import com.cahyono.tokoonline.fragment.HomeFragment
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 //        setContentView(R.layout.activity_main)
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     if (s.getStatusLogin()){
                         replaceFragment(AkunFragment())
                     } else {
-                        startActivity(Intent(this, LoginActivity::class.java))
+                        startActivity(Intent(this, MasukActivity::class.java))
                     }
                 else ->{
 
