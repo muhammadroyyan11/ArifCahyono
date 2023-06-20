@@ -1,17 +1,28 @@
 package com.cahyono.tokoonline.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBindings
 import androidx.viewpager.widget.ViewPager
+import com.cahyono.tokoonline.MainActivity
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.adapter.AdapterProduk
 import com.cahyono.tokoonline.adapter.AdapterSlider
+import com.cahyono.tokoonline.app.ApiConfig
+import com.cahyono.tokoonline.helper.SharedPref
 import com.cahyono.tokoonline.model.Produk
+import com.cahyono.tokoonline.model.ResponModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 /**
  * A simple [Fragment] subclass.
@@ -21,6 +32,8 @@ class HomeFragment : Fragment() {
     lateinit var vpSlider: ViewPager
     lateinit var rvProduk: RecyclerView
     lateinit var rvTerlaris: RecyclerView
+
+    lateinit var s: SharedPref
 
     private lateinit var produkAdapter: AdapterProduk
     private lateinit var produkList: ArrayList<Produk>
@@ -33,9 +46,7 @@ class HomeFragment : Fragment() {
     ): View? {
         val view : View = inflater.inflate(R.layout.fragment_home, container, false)
 
-        vpSlider = view.findViewById(R.id.vp_slider)
-        rvProduk = view.findViewById(R.id.rv_produk)
-        rvTerlaris = view.findViewById(R.id.rv_terlaris)
+        init(view)
 
         var arrSlider = ArrayList<Int>()
         arrSlider.add(R.drawable.slider1)
@@ -45,7 +56,12 @@ class HomeFragment : Fragment() {
         val adapterSlider = AdapterSlider(arrSlider, activity)
         vpSlider.adapter = adapterSlider
 
+        getProduk()
 
+        return view
+    }
+
+    fun displayProduk(){
         rvProduk.layoutManager = LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false)
         rvProduk.setHasFixedSize(true)
 
@@ -55,29 +71,40 @@ class HomeFragment : Fragment() {
         produkList = ArrayList()
         terlarisList = ArrayList()
 
-        arrProduk()
-        arrTerlarsis()
+//        arrTerlarsis()
 
-        produkAdapter = AdapterProduk(produkList)
+        produkAdapter = AdapterProduk(listProduk)
         rvProduk.adapter = produkAdapter
 
-        terlarisAdapter = AdapterProduk(terlarisList)
+        terlarisAdapter = AdapterProduk(listProduk)
         rvTerlaris.adapter = terlarisAdapter
 
-        return view
     }
 
-    private fun arrProduk(){
-        produkList.add(Produk("Tanaman Murah", "Rp.100.000", R.drawable.produk1))
-        produkList.add(Produk("Tanaman Menengah", "Rp.500.000", R.drawable.produk2))
-        produkList.add(Produk("Tanaman Ter Mahal", "Rp.1.000.000", R.drawable.produk3))
+    private var listProduk: ArrayList<Produk> = ArrayList()
+
+    fun getProduk(){
+        ApiConfig.instanceRetrofit.getProduk().enqueue(object :
+            Callback<ResponModel> {
+            override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
+                val res = response.body()!!
+
+                if(res.success == 1) {
+                    listProduk = res.produks
+                    displayProduk()
+                }
+            }
+
+            override fun onFailure(call: Call<ResponModel>, t: Throwable) {
+
+            }
+
+        })
     }
 
-    private fun arrTerlarsis(){
-        terlarisList.add(Produk("Tanaman Murah", "Rp.100.000", R.drawable.produk1))
-        terlarisList.add(Produk("Tanaman Menengah", "Rp.500.000", R.drawable.produk2))
-        terlarisList.add(Produk("Tanaman Mahal", "Rp.1.000.000", R.drawable.produk4))
+    fun init(view: View){
+        vpSlider = view.findViewById(R.id.vp_slider)
+        rvProduk = view.findViewById(R.id.rv_produk)
+        rvTerlaris = view.findViewById(R.id.rv_terlaris)
     }
-
-
 }

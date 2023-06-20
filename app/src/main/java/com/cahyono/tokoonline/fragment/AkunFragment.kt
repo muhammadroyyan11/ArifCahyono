@@ -57,9 +57,19 @@ class AkunFragment : Fragment() {
     }
 
     fun setData(){
-        tvNama.text = s.getString(s.nama)
-        tvEmail.text = s.getString(s.email)
-        tvPhone.text = s.getString(s.phone)
+        if (s.getUser() == null){
+            val intent  = Intent(activity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+
+            return
+        }
+
+        val user = s.getUser()!!
+
+        tvNama.text = user.name
+        tvEmail.text = user.email
+        tvPhone.text = user.phone
     }
 
 //    private fun init(view: View) {

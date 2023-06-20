@@ -25,7 +25,7 @@ object ApiConfig {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl("http://192.168.1.13/TokoOnlineWebMaster/public/api/")
+                .baseUrl("http://192.168.252.112/TokoOnlineWebMaster/public/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()

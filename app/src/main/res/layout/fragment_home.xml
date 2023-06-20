@@ -116,5 +116,12 @@
     </androidx.core.widget.NestedScrollView>
 
 
+    <ProgressBar
+        android:id="@+id/pbHome"
+        android:visibility="gone"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerInParent="true"/>
+
 
 </LinearLayout>

@@ -13,5 +13,10 @@
     <color name="colorPrimaryDark">#001342</color>
     <color name="colorPrimary">#001342</color>
 
+    <color name="dark">#121931</color>
+
+    <color name="biru">#0099FF</color>
+
+
 
 </resources>

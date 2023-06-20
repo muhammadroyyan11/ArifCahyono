@@ -1,6 +1,5 @@
 package com.cahyono.tokoonline.activity
 
-import android.R.attr.button
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -9,11 +8,9 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.cahyono.tokoonline.MainActivity
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.app.ApiConfig
 import com.cahyono.tokoonline.model.ResponModel
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -8,8 +8,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.model.Produk
+import com.squareup.picasso.Picasso
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
-class AdapterProduk(var data:ArrayList<Produk>):RecyclerView.Adapter<AdapterProduk.ViewHolder>() {
+class AdapterProduk(var data: ArrayList<Produk>):RecyclerView.Adapter<AdapterProduk.ViewHolder>() {
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -34,8 +38,16 @@ class AdapterProduk(var data:ArrayList<Produk>):RecyclerView.Adapter<AdapterProd
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val produk = data[position]
 
-        holder.tvNama.text = produk.nama
-        holder.tvHarga.text = produk.harga
-        holder.imgProduk.setImageResource(produk.gambar)
+        holder.tvNama.text = produk.name
+        holder.tvHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(produk.harga))
+//        holder.imgProduk.setImageResource(produk.image)
+
+        val image = "http://192.168.252.112/TokoOnlineWebMaster/storage/app/public/produk/"+data[position].image
+
+        Picasso.get()
+            .load(image)
+            .placeholder(R.drawable.loading)
+            .error(R.drawable.loading)
+            .into(holder.imgProduk)
     }
 }
