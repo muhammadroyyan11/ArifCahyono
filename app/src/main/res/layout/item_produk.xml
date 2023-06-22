@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
     android:layout_width="150dp"
     android:layout_marginLeft="10dp"
     android:layout_marginTop="1dp"
@@ -16,7 +17,7 @@
             android:id="@+id/img_produk"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/produk1"/>
+            android:src="@drawable/produk1" />
 
         <TextView
             android:layout_marginHorizontal="5dp"

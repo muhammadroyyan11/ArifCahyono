@@ -73,10 +73,10 @@ class HomeFragment : Fragment() {
 
 //        arrTerlarsis()
 
-        produkAdapter = AdapterProduk(listProduk)
+        produkAdapter = AdapterProduk(requireActivity(), listProduk)
         rvProduk.adapter = produkAdapter
 
-        terlarisAdapter = AdapterProduk(listProduk)
+        terlarisAdapter = AdapterProduk(requireActivity(), listProduk)
         rvTerlaris.adapter = terlarisAdapter
 
     }
