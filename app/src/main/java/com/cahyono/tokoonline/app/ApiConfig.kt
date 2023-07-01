@@ -25,7 +25,7 @@ object ApiConfig {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl("https://dev.kobis.id/api/")
+                .baseUrl("http://192.168.100.82/webApi/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()

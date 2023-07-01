@@ -11,7 +11,9 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.activity.DetailProdukActivity
+import com.cahyono.tokoonline.helper.Helper
 import com.cahyono.tokoonline.model.Produk
+import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
 import java.util.*
@@ -41,10 +43,10 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>):Recycle
         val produk = data[position]
 
         holder.tvNama.text = produk.name
-        holder.tvHarga.text = NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(produk.harga))
 //        holder.imgProduk.setImageResource(produk.image)
+        holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 
-        val image = "https://dev.kobis.id/storage/produk/"+data[position].image
+        val image = "http://192.168.100.82/webApi/uploads/produk/"+data[position].image
 
         Picasso.get()
             .load(image)
@@ -54,9 +56,10 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>):Recycle
 
         holder.layout.setOnClickListener{
             val intent = Intent(activity, DetailProdukActivity::class.java)
-            intent.putExtra("nama", data[position].name)
-            intent.putExtra("harga", NumberFormat.getCurrencyInstance(Locale("in","ID")).format(Integer.valueOf(data[position].harga)))
-            intent.putExtra("desc", data[position].deskripsi)
+
+            val str = Gson().toJson(data[position], Produk::class.java)
+
+            intent.putExtra("extra", str)
 
             activity.startActivity(intent)
         }
