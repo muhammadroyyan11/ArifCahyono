@@ -35,7 +35,7 @@ class DetailProdukActivity : AppCompatActivity() {
         tvHarga.text = Helper().gantiRupiah(produk.harga)
         tvDesc.text = produk.deskripsi
 
-        val img = "http://192.168.100.82/webApi/uploads/produk/"+produk.image
+        val img = "http://api.readytowork.site/uploads/produk/"+produk.image
 
         Picasso.get()
             .load(img)
