@@ -49,9 +49,7 @@ class HomeFragment : Fragment() {
         init(view)
 
         var arrSlider = ArrayList<Int>()
-        arrSlider.add(R.drawable.slider1)
-        arrSlider.add(R.drawable.slider2)
-        arrSlider.add(R.drawable.slider3)
+        arrSlider.add(R.drawable.sampul)
 
         val adapterSlider = AdapterSlider(arrSlider, activity)
         vpSlider.adapter = adapterSlider
