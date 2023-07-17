@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.activity.LoginActivity
 import com.cahyono.tokoonline.activity.MasukActivity
 import com.cahyono.tokoonline.databinding.ActivityMainBinding
+import com.cahyono.tokoonline.fragment.AboutFragment
 import com.cahyono.tokoonline.fragment.AkunFragment
 import com.cahyono.tokoonline.fragment.HomeFragment
 import com.cahyono.tokoonline.fragment.KeranjangFragment
@@ -47,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId){
                 R.id.home -> {replaceFragment(HomeFragment())}
                 R.id.keranjang -> replaceFragment(KeranjangFragment())
+                R.id.about -> replaceFragment(AboutFragment())
                 R.id.akun ->
                     if (s.getStatusLogin()){
                         replaceFragment(AkunFragment())
