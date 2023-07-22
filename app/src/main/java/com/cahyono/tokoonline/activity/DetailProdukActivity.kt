@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.room.Room
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.data.MyConnection
@@ -53,38 +54,17 @@ class DetailProdukActivity : AppCompatActivity() {
         }
 
         btn_keranjang.setOnClickListener {
+
             saveName()
 //            Log.d("Response","Berhasil di input")
         }
     }
 
-//    private fun loadData(){
-//        GlobalScope.launch {
-//            val names = connect.daoName().getAll()
-//
-//            runOnUiThread{
-//                for(name :Produk in names){
-//                    println("-----------------------")
-//                    println(name.name)
-//                }
-//            }
-//        }
-//    }
-
     private fun saveName() {
-//        val name = Name(Name, Belakang)
-//
-//        name.name = "First Note"
-//        name.belakang = "9000"
-//        val data = Name(nameFirst, belakang)
-
-
-//        GlobalScope.launch {
-//            connect.NameDao().insertAll(Name(nameFirst, lastName))
-
         val note = Produk() //create new note
         note.name = produk.name
         note.harga = produk.harga
+        note.image = produk.image
 
         CompositeDisposable().add(Observable.fromCallable { myDb.daoName().insertAll(note) }
             .subscribeOn(Schedulers.computation())
@@ -92,6 +72,7 @@ class DetailProdukActivity : AppCompatActivity() {
             .subscribe {
                 checkKeranjang()
                 Log.d("respons", "data inserted")
+                Toast.makeText(this@DetailProdukActivity, "Produk di masukkan ke keranjang", Toast.LENGTH_SHORT).show()
             })
     }
 

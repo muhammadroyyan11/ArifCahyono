@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.R
+import com.cahyono.tokoonline.adapter.AdapterKeranjang
 import com.cahyono.tokoonline.adapter.AdapterProduk
 import com.cahyono.tokoonline.room.MyDatabase
 
@@ -21,8 +22,7 @@ import com.cahyono.tokoonline.room.MyDatabase
 class KeranjangFragment : Fragment() {
 
     lateinit var rvTerlaris: RecyclerView
-    private lateinit var produkAdapter: AdapterProduk
-    private lateinit var terlarisAdapter: AdapterProduk
+    private lateinit var produkAdapter: AdapterKeranjang
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,7 +49,7 @@ class KeranjangFragment : Fragment() {
 
 //        arrTerlarsis()
 
-        produkAdapter = AdapterProduk(requireActivity(), listProduk)
+        produkAdapter = AdapterKeranjang(requireActivity(), listProduk)
         rvProduk.adapter = produkAdapter
 
     }
@@ -71,7 +71,7 @@ class KeranjangFragment : Fragment() {
 
     private fun init(view: View){
         btnDelete = view.findViewById(R.id.btn_delete)
-        rvProduk = view.findViewById(R.id.rv_produk)
+        rvProduk = view.findViewById(R.id.rv_keranjang)
         tvTotal = view.findViewById(R.id.tv_total)
         btnBayar = view.findViewById(R.id.btn_bayar)
 

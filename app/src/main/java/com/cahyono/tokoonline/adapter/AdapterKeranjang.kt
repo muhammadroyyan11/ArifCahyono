@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
@@ -19,19 +20,25 @@ import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>):RecyclerView.Adapter<AdapterProduk.ViewHolder>() {
+class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>):RecyclerView.Adapter<AdapterKeranjang.ViewHolder>() {
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama: TextView = itemView.findViewById(R.id.tv_nama)
         val tvHarga: TextView = itemView.findViewById(R.id.tv_harga)
-        val imgProduk: ImageView = itemView.findViewById(R.id.img_produk)
+        val imgProduk: ImageView = itemView.findViewById(R.id.img_keranjang)
+
+        val btnTambah: ImageView = itemView.findViewById(R.id.btn_tambah)
+        val btnDelete: ImageView = itemView.findViewById(R.id.btn_delete)
+        val btnKurang: ImageView = itemView.findViewById(R.id.btn_kurang)
+
+        val checkbox: CheckBox = itemView.findViewById(R.id.checkBox)
 
         val layout: CardView = itemView.findViewById(R.id.layout)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_produk, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.item_keranjang, parent, false)
         return ViewHolder(view)
     }
 
