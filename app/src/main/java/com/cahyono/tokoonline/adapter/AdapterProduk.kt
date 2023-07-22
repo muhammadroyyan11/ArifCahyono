@@ -46,7 +46,7 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>):Recycle
 //        holder.imgProduk.setImageResource(produk.image)
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 
-        val image = "http://api.readytowork.site/uploads/produk/"+data[position].image
+        val image = "http://192.168.1.45/webApi/uploads/produk/"+data[position].image
 
         Picasso.get()
             .load(image)

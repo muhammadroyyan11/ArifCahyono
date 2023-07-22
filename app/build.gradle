@@ -72,10 +72,20 @@ dependencies {
     //display image
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+//    //SQLite
+//    kapt "android.arch.persistence.room:compiler:1.1.1"
+//    implementation 'android.arch.persistence.room:runtime:1.1.1'
+//    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+//    implementation "androidx.room:room-runtime:2.2.5"
+//    annotationProcessor "androidx.room:room-compiler:2.2.5"
+
+    //RoomDataBase
+    implementation("androidx.room:room-runtime:2.5.2")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-ktx:2.5.2")
+
     //SQLite
-    kapt "android.arch.persistence.room:compiler:1.1.1"
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
-    implementation "androidx.room:room-runtime:2.2.5"
-    annotationProcessor "androidx.room:room-compiler:2.2.5"
 }
