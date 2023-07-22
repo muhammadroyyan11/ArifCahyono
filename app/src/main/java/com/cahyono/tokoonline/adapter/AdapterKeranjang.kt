@@ -26,6 +26,7 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>):Recy
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama: TextView = itemView.findViewById(R.id.tv_nama)
         val tvHarga: TextView = itemView.findViewById(R.id.tv_harga)
+        val tvJumlah: TextView = itemView.findViewById(R.id.tv_jumlah)
         val imgProduk: ImageView = itemView.findViewById(R.id.img_keranjang)
 
         val btnTambah: ImageView = itemView.findViewById(R.id.btn_tambah)
@@ -50,6 +51,7 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>):Recy
         val produk = data[position]
 
         holder.tvNama.text = produk.name
+        holder.tvJumlah.text = data[position].jumlah.toString()
 //        holder.imgProduk.setImageResource(produk.image)
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 

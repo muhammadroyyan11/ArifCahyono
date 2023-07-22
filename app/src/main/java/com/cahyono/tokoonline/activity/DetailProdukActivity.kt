@@ -54,19 +54,35 @@ class DetailProdukActivity : AppCompatActivity() {
         }
 
         btn_keranjang.setOnClickListener {
-
-            saveName()
+        val data = myDb.daoName().getProduk(produk.id)
+            if (data == null) {
+                saveName()
+            } else {
+                data.jumlah += 1
+                update(data)
+            }
 //            Log.d("Response","Berhasil di input")
         }
     }
 
-    private fun saveName() {
-        val note = Produk() //create new note
-        note.name = produk.name
-        note.harga = produk.harga
-        note.image = produk.image
+    private fun update(data: Produk) {
+        CompositeDisposable().add(Observable.fromCallable { myDb.daoName().update(data) }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                checkKeranjang()
+                Log.d("respons", "data inserted")
+                Toast.makeText(this, "Berhasil menambah kekeranjang", Toast.LENGTH_SHORT).show()
+            })
+    }
 
-        CompositeDisposable().add(Observable.fromCallable { myDb.daoName().insertAll(note) }
+    private fun saveName() {
+//        val note = Produk() //create new note
+//        note.name = produk.name
+//        note.harga = produk.harga
+//        note.image = produk.image
+
+        CompositeDisposable().add(Observable.fromCallable { myDb.daoName().insertAll(produk) }
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {

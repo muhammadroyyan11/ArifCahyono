@@ -1,9 +1,6 @@
 package com.cahyono.tokoonline.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.cahyono.tokoonline.model.Produk
 
 @Dao
@@ -16,4 +13,10 @@ interface NameDao {
 
     @Delete
     fun delete(user: Produk)
+
+    @Query("SELECT * FROM name WHERE id = :id LIMIT 1")
+    fun getProduk(id: Int): Produk
+
+    @Update
+    fun update(data: Produk): Int
 }
