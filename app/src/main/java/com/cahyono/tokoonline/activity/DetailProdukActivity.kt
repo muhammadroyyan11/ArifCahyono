@@ -1,5 +1,6 @@
 package com.cahyono.tokoonline.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.room.Room
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.data.MyConnection
@@ -36,10 +38,17 @@ class DetailProdukActivity : AppCompatActivity() {
 
         val btn_keranjang = findViewById<RelativeLayout>(R.id.btn_keranjang)
         val btn_favorit = findViewById<RelativeLayout>(R.id.btn_favorit)
+        val btn_toKeranjang = findViewById<RelativeLayout>(R.id.btn_toKeranjang)
 
 //        initDatabase()
         getInfo()
         checkKeranjang()
+
+        btn_toKeranjang.setOnClickListener {
+            val intent = Intent("event:keranjang")
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+            onBackPressed()
+        }
 
 
         btn_favorit.setOnClickListener {
@@ -54,7 +63,7 @@ class DetailProdukActivity : AppCompatActivity() {
         }
 
         btn_keranjang.setOnClickListener {
-        val data = myDb.daoName().getProduk(produk.id)
+        val data = myDb!!.daoName().getProduk(produk.id)
             if (data == null) {
                 saveName()
             } else {
@@ -62,6 +71,7 @@ class DetailProdukActivity : AppCompatActivity() {
                 update(data)
             }
 //            Log.d("Response","Berhasil di input")
+
         }
     }
 

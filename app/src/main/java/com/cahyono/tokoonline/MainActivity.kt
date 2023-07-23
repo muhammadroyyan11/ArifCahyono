@@ -1,10 +1,14 @@
 package com.cahyono.tokoonline
 
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.activity.LoginActivity
 import com.cahyono.tokoonline.activity.MasukActivity
@@ -30,7 +34,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var rvProduk: RecyclerView
 
     private lateinit var binding : ActivityMainBinding
-    
+
+    private var dariDetail: Boolean = false
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +66,14 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessage, IntentFilter("event:keranjang"))
+    }
+
+    val mMessage: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            dariDetail = true
+        }
     }
 
     private fun replaceFragment(fragment : Fragment){
@@ -70,5 +83,13 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.container,fragment)
         fragmentTransaction.commit()
 
+    }
+
+    override fun onResume() {
+        if (dariDetail) {
+            dariDetail = false
+            replaceFragment(KeranjangFragment())
+        }
+        super.onResume()
     }
 }

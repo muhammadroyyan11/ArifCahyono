@@ -61,6 +61,9 @@
         </activity>
         <activity android:name="com.cahyono.tokoonline.activity.MasukActivity" />
         <activity android:name="com.cahyono.tokoonline.activity.RegisterActivity" />
+        <activity android:name="com.cahyono.tokoonline.activity.PengirimanActivity" />
+        <activity android:name="com.cahyono.tokoonline.activity.TambahAlamatActivity" />
+        <activity android:name="com.cahyono.tokoonline.activity.ListAlamatActivity" />
     </application>
 
 </manifest>

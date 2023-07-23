@@ -8,19 +8,25 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.activity.DetailProdukActivity
 import com.cahyono.tokoonline.helper.Helper
 import com.cahyono.tokoonline.model.Produk
+import com.cahyono.tokoonline.room.MyDatabase
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import java.text.NumberFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>):RecyclerView.Adapter<AdapterKeranjang.ViewHolder>() {
+class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>, var listener: Listeners):RecyclerView.Adapter<AdapterKeranjang.ViewHolder>() {
 
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -47,13 +53,44 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>):Recy
         return data.size
     }
 
+    interface Listeners {
+        fun onUpdate()
+        fun onDelete(position: Int)
+    }
+
+    private fun update(data: Produk) {
+        val myDb = MyDatabase.getInstance(activity)
+        CompositeDisposable().add(Observable.fromCallable { myDb!!.daoName().update(data) }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                listener.onUpdate()
+            })
+    }
+
+    private fun delete(data: Produk) {
+        val myDb = MyDatabase.getInstance(activity)
+        CompositeDisposable().add(Observable.fromCallable { myDb!!.daoName().delete(data) }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+            })
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val produk = data[position]
 
+        var jumlah = data[position].jumlah
+
         holder.tvNama.text = produk.name
-        holder.tvJumlah.text = data[position].jumlah.toString()
-//        holder.imgProduk.setImageResource(produk.image)
+        holder.tvJumlah.text = jumlah.toString()
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
+
+        holder.checkbox.isChecked = produk.selected
+        holder.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            produk.selected = isChecked
+            update(produk)
+        }
 
         val image = "http://api.readytowork.site/uploads/produk/"+data[position].image
 
@@ -63,14 +100,33 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>):Recy
             .error(R.drawable.loading)
             .into(holder.imgProduk)
 
-        holder.layout.setOnClickListener{
-            val intent = Intent(activity, DetailProdukActivity::class.java)
+        holder.btnTambah.setOnClickListener {
+            if (jumlah == 10){
+                Toast.makeText(activity, "Produk mencapai batas maksimal", Toast.LENGTH_SHORT).show()
+            } else {
+                jumlah++
+                holder.tvJumlah.text = jumlah.toString()
 
-            val str = Gson().toJson(data[position], Produk::class.java)
+                produk.jumlah = jumlah
+                update(produk)
+            }
+        }
 
-            intent.putExtra("extra", str)
+        holder.btnKurang.setOnClickListener {
+            if (jumlah == 1){
+                Toast.makeText(activity, "Produk mencapai batas minimum", Toast.LENGTH_SHORT).show()
+            } else {
+                jumlah--
+                holder.tvJumlah.text = jumlah.toString()
 
-            activity.startActivity(intent)
+                produk.jumlah = jumlah
+                update(produk)
+            }
+        }
+
+        holder.btnDelete.setOnClickListener {
+            delete(produk)
+            listener.onDelete(position)
         }
     }
 }
