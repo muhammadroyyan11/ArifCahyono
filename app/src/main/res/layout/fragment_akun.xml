@@ -163,41 +163,6 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:gravity="center_vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_baseline_notifications_active_24" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="Notifikasi"
-                                android:textColor="@color/colorPrimaryDark" />
-
-                        </LinearLayout>
-
-                        <Switch
-                            android:id="@+id/swt_notif"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true" />
-
-                    </RelativeLayout>
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -288,41 +253,6 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/btn_wishlist"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginTop="20dp"
-                        android:gravity="center_vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_baseline_favorite_24" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="Wish List"
-                                android:textColor="@color/colorPrimaryDark" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
-
-                    </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/btn_settingAlamat"
@@ -413,43 +343,6 @@
                             app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
 
                     </RelativeLayout>
-
-                    <RelativeLayout
-                        android:id="@+id/btn_help"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginTop="20dp"
-                        android:gravity="center_vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_baseline_help_outline_24" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
-                                android:text="Bantuan"
-                                android:textColor="@color/colorPrimaryDark" />
-
-                        </LinearLayout>
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            app:srcCompat="@drawable/ic_baseline_chevron_right_24" />
-
-                    </RelativeLayout>
-
 
                 </LinearLayout>
 

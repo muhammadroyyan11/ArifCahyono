@@ -8,10 +8,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import com.cahyono.tokoonline.MainActivity
 import com.cahyono.tokoonline.R
+import com.cahyono.tokoonline.activity.ListAlamatActivity
 import com.cahyono.tokoonline.activity.LoginActivity
+import com.cahyono.tokoonline.activity.PengirimanActivity
 import com.cahyono.tokoonline.helper.SharedPref
 
 /**
@@ -24,7 +28,11 @@ class AkunFragment : Fragment() {
     lateinit var tvNama:TextView
     lateinit var tvPhone:TextView
     lateinit var tvEmail:TextView
+    lateinit var btnListAlamat:RelativeLayout
+    lateinit var btnKeranjang:RelativeLayout
+    lateinit var btnTentang:RelativeLayout
 
+    lateinit var sm: FragmentManager
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +46,9 @@ class AkunFragment : Fragment() {
         tvNama = view.findViewById<TextView>(R.id.tv_nama)
         tvEmail = view.findViewById<TextView>(R.id.tv_email)
         tvPhone = view.findViewById<TextView>(R.id.tv_phone)
+        btnListAlamat = view.findViewById(R.id.btn_settingAlamat)
+        btnKeranjang = view.findViewById(R.id.btn_keranjang)
+        btnTentang = view.findViewById(R.id.btn_tentang)
 
         s = SharedPref(requireActivity())
 
@@ -52,9 +63,33 @@ class AkunFragment : Fragment() {
             }
         })
 
+        btnListAlamat.setOnClickListener {
+            startActivity(Intent(requireActivity(), ListAlamatActivity::class.java))
+//            replaceFragment(KeranjangFragment())
+        }
+
+        btnKeranjang.setOnClickListener {
+//            startActivity(Intent(requireActivity(), KeranjangFragment::class.java))
+            val keranjang = KeranjangFragment()
+            sm.beginTransaction().replace(R.id.keranjang, keranjang).commit()
+        }
+
+        btnTentang.setOnClickListener {
+            startActivity(Intent(requireActivity(), AboutFragment::class.java))
+        }
+
         setData()
         return view
     }
+
+//    private fun replaceFragment(fragment : Fragment){
+//
+//        val fragmentManager = supportFragmentManager
+//        val fragmentTransaction = fragmentManager.beginTransaction()
+//        fragmentTransaction.replace(R.id.container,fragment)
+//        fragmentTransaction.commit()
+//
+//    }
 
     fun setData(){
         if (s.getUser() == null){
