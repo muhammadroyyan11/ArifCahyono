@@ -133,7 +133,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/tv_nama"
+                            android:id="@+id/tv_nama_alamat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -143,7 +143,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/tv_phone"
+                            android:id="@+id/tv_phone_alamat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0812345678"
@@ -151,7 +151,7 @@
                             android:textSize="14dp" />
 
                         <TextView
-                            android:id="@+id/tv_alamat"
+                            android:id="@+id/tv_alamat_alamat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="alamat"

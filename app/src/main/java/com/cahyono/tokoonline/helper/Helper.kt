@@ -27,6 +27,7 @@ class Helper {
         activity.supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
+
     fun convertTanggal(tgl: String, formatBaru: String, fromatLama: String = "yyyy-MM-dd kk:mm:ss") :String{
         val dateFormat = SimpleDateFormat(fromatLama)
         val confert = dateFormat.parse(tgl)
