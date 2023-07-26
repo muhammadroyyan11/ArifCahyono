@@ -16,6 +16,7 @@ import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.activity.ListAlamatActivity
 import com.cahyono.tokoonline.activity.LoginActivity
 import com.cahyono.tokoonline.activity.PengirimanActivity
+import com.cahyono.tokoonline.activity.RiwayatActivity
 import com.cahyono.tokoonline.helper.SharedPref
 
 /**
@@ -31,6 +32,7 @@ class AkunFragment : Fragment() {
     lateinit var btnListAlamat:RelativeLayout
     lateinit var btnKeranjang:RelativeLayout
     lateinit var btnTentang:RelativeLayout
+    lateinit var btnRiwayat: RelativeLayout
 
     lateinit var sm: FragmentManager
 
@@ -49,6 +51,7 @@ class AkunFragment : Fragment() {
         btnListAlamat = view.findViewById(R.id.btn_settingAlamat)
         btnKeranjang = view.findViewById(R.id.btn_keranjang)
         btnTentang = view.findViewById(R.id.btn_tentang)
+        btnRiwayat = view.findViewById(R.id.btn_riwayat)
 
         s = SharedPref(requireActivity())
 
@@ -62,6 +65,10 @@ class AkunFragment : Fragment() {
                 }
             }
         })
+
+        btnRiwayat.setOnClickListener {
+            requireActivity().startActivity(Intent(requireActivity(), RiwayatActivity::class.java))
+        }
 
         btnListAlamat.setOnClickListener {
             startActivity(Intent(requireActivity(), ListAlamatActivity::class.java))

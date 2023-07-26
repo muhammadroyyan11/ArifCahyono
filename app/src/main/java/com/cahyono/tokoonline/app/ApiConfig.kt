@@ -1,5 +1,6 @@
 package com.cahyono.tokoonline.app
 
+import com.cahyono.tokoonline.util.Config
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -10,6 +11,7 @@ import java.util.concurrent.TimeUnit
 
 object ApiConfig {
     private const val IS_PRODUCTION = false
+    private const val BASE_URL = Config.baseUrl2 + "api/"
     private val client: Retrofit
         get() {
             val gson = GsonBuilder()
@@ -25,7 +27,7 @@ object ApiConfig {
                 .build()
 
             return Retrofit.Builder()
-                .baseUrl("http:/api.readytowork.site/api/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()

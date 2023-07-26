@@ -1,7 +1,9 @@
 package com.cahyono.tokoonline.app
 
+import com.cahyono.tokoonline.model.Chekout
 import com.cahyono.tokoonline.model.ResponModel
 import com.cahyono.tokoonline.model.rajaongkir.ResponOngkir
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -53,6 +55,26 @@ interface ApiService {
         @Field("courier") courier: String
     ): Call<ResponOngkir>
 
+    @POST("chekout")
+    fun chekout(
+        @Body data: Chekout
+    ): Call<ResponModel>
+
+    @GET("chekout/user/{id}")
+    fun getRiwayat(
+        @Path("id") id: Int
+    ): Call<ResponModel>
+
+    @POST("chekout/batal/{id}")
+    fun batalChekout(
+        @Path("id") id: Int
+    ): Call<ResponModel>
+
+    @Multipart
+    @POST("chekout/upload")
+    fun uploadBukti(
+        @Part image: MultipartBody.Part
+    ): Call<ResponModel>
 
 //    @FormUrlEncoded
 //    @POST("cost")

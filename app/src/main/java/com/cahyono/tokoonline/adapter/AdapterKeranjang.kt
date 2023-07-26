@@ -93,7 +93,7 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>, var 
             update(produk)
         }
 
-        val image = "http://api.readytowork.site/uploads/produk/"+data[position].image
+        val image = "http://192.168.1.16/TokoOnlineWebMaster/storage/app/public/produk/"+data[position].image
 
         Picasso.get()
             .load(image)

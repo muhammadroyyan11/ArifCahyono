@@ -17,6 +17,7 @@ import com.cahyono.tokoonline.data.Name
 import com.cahyono.tokoonline.helper.Helper
 import com.cahyono.tokoonline.model.Produk
 import com.cahyono.tokoonline.room.MyDatabase
+import com.cahyono.tokoonline.util.Config
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import io.reactivex.Observable
@@ -37,12 +38,27 @@ class DetailProdukActivity : AppCompatActivity() {
         myDb = MyDatabase.getInstance(this)!!
 
         val btn_keranjang = findViewById<RelativeLayout>(R.id.btn_keranjang)
-        val btn_favorit = findViewById<RelativeLayout>(R.id.btn_favorit)
+//        val btn_favorit = findViewById<RelativeLayout>(R.id.btn_favorit)
         val btn_toKeranjang = findViewById<RelativeLayout>(R.id.btn_toKeranjang)
+        val btn_beliSekarang = findViewById<RelativeLayout>(R.id.btn_beliSekarang)
 
 //        initDatabase()
         getInfo()
         checkKeranjang()
+
+        btn_beliSekarang.setOnClickListener {
+            val data = myDb!!.daoName().getProduk(produk.id)
+            if (data == null) {
+                saveName()
+            } else {
+                data.jumlah += 1
+                update(data)
+            }
+
+            val intent = Intent("event:keranjang")
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent)
+            onBackPressed()
+        }
 
         btn_toKeranjang.setOnClickListener {
             val intent = Intent("event:keranjang")
@@ -51,16 +67,16 @@ class DetailProdukActivity : AppCompatActivity() {
         }
 
 
-        btn_favorit.setOnClickListener {
-//            loadData()// call database
-            val listProduk = myDb.daoName().getAll() // get All data
-            for(produk :Produk in listProduk){
-                println("-----------------------")
-                println(produk.name)
-                println(produk.harga)
-            }
-
-        }
+//        btn_favorit.setOnClickListener {
+////            loadData()// call database
+//            val listProduk = myDb.daoName().getAll() // get All data
+//            for(produk :Produk in listProduk){
+//                println("-----------------------")
+//                println(produk.name)
+//                println(produk.harga)
+//            }
+//
+//        }
 
         btn_keranjang.setOnClickListener {
         val data = myDb!!.daoName().getProduk(produk.id)
@@ -134,7 +150,7 @@ class DetailProdukActivity : AppCompatActivity() {
         tvHarga.text = Helper().gantiRupiah(produk.harga)
         tvDesc.text = produk.deskripsi
 
-        val img = "http://api.readytowork.site/uploads/produk/"+produk.image
+        val img = "http://192.168.1.16/TokoOnlineWebMaster/storage/app/public/produk/" + produk.image
 
         Picasso.get()
             .load(img)

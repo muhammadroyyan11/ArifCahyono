@@ -231,20 +231,20 @@
                     android:background="#F8F8F8"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
-                        android:text="Produk Terkait"
-                        android:textColor="@color/dark"
-                        android:textSize="15dp"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_margin="15dp"-->
+<!--                        android:text="Produk Terkait"-->
+<!--                        android:textColor="@color/dark"-->
+<!--                        android:textSize="15dp"-->
+<!--                        android:textStyle="bold" />-->
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_produk"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="15dp" />
+<!--                    <androidx.recyclerview.widget.RecyclerView-->
+<!--                        android:id="@+id/rv_produk"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginBottom="15dp" />-->
 
                 </LinearLayout>
 
@@ -261,19 +261,19 @@
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp">
 
-            <RelativeLayout
-                android:id="@+id/btn_favorit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_btn_keranjang">
+<!--            <RelativeLayout-->
+<!--                android:id="@+id/btn_favorit"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/bg_btn_keranjang">-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:srcCompat="@drawable/ic_baseline_favorite_border_24" />
+<!--                <ImageView-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_margin="8dp"-->
+<!--                    app:srcCompat="@drawable/ic_baseline_favorite_border_24" />-->
 
-            </RelativeLayout>
+<!--            </RelativeLayout>-->
 
             <RelativeLayout
                 android:id="@+id/btn_keranjang"
@@ -285,12 +285,16 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
                     app:srcCompat="@drawable/ic_baseline_add_shopping_cart_24" />
 
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/btn_beliSekarang"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="15dp"

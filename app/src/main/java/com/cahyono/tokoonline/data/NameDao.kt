@@ -14,6 +14,9 @@ interface NameDao {
     @Delete
     fun delete(user: Produk)
 
+    @Query("DELETE FROM name WHERE id = :id")
+    fun deleteById(id: String): Int
+
     @Query("SELECT * FROM name WHERE id = :id LIMIT 1")
     fun getProduk(id: Int): Produk
 

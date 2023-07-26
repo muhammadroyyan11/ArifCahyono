@@ -20,11 +20,14 @@ import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.adapter.AdapterKurir
 import com.cahyono.tokoonline.app.ApiConfigAlamat
 import com.cahyono.tokoonline.helper.Helper
+import com.cahyono.tokoonline.helper.SharedPref
+import com.cahyono.tokoonline.model.Chekout
 import com.cahyono.tokoonline.model.rajaongkir.Costs
 import com.cahyono.tokoonline.model.rajaongkir.ResponOngkir
 import com.cahyono.tokoonline.room.MyConnection
 import com.cahyono.tokoonline.room.MyDatabase
 import com.cahyono.tokoonline.util.ApiKey
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -79,7 +82,6 @@ class PengirimanActivity : AppCompatActivity() {
         }
         main()
         setSepiner()
-        bayar()
         getInfo()
     }
 
@@ -247,9 +249,46 @@ class PengirimanActivity : AppCompatActivity() {
     }
 
     fun bayar(){
-        btn_bayar.setOnClickListener{
-            startActivity(Intent(this, PembayaranActivity::class.java))
+        //to be
+        val user = SharedPref(this).getUser()!!
+        val a = myDb.daoAlamat().getByStatus(true)!!
+
+        val listProduk = myDbTwo.daoName().getAll() as ArrayList
+        var totalItem = 0
+        var totalHarga = 0
+        val produks = ArrayList<Chekout.Item>()
+        for (p in listProduk) {
+            if (p.selected) {
+                totalItem += p.jumlah
+                totalHarga += (p.jumlah * Integer.valueOf(p.harga))
+
+                val produk = Chekout.Item()
+                produk.id = "" + p.id
+                produk.total_item = "" + p.jumlah
+                produk.total_harga = "" + (p.jumlah * Integer.valueOf(p.harga))
+                produk.catatan = "catatan baru"
+                produks.add(produk)
+            }
         }
+
+        val chekout = Chekout()
+        chekout.user_id = "" + user.id
+        chekout.total_item = "" + totalItem
+        chekout.total_harga = "" + totalHarga
+        chekout.name = a.name
+        chekout.phone = a.phone
+        chekout.jasa_pengiriaman = jasaKirim
+        chekout.ongkir = ongkir
+        chekout.kurir = kurir
+        chekout.detail_lokasi = tv_alamat.text.toString()
+        chekout.total_transfer = "" + (totalHarga + Integer.valueOf(ongkir))
+        chekout.produks = produks
+
+        val json = Gson().toJson(chekout, Chekout::class.java)
+        Log.d("Respon:", "json:" + json)
+        val intent = Intent(this, PembayaranActivity::class.java)
+        intent.putExtra("extra", json)
+        startActivity(intent)
     }
 
     fun getInfo(){
@@ -264,6 +303,10 @@ class PengirimanActivity : AppCompatActivity() {
     fun main(){
         btnTambahAlamat.setOnClickListener {
             startActivity(Intent(this, TambahAlamatActivity::class.java))
+        }
+
+        btn_bayar.setOnClickListener{
+            bayar()
         }
     }
 

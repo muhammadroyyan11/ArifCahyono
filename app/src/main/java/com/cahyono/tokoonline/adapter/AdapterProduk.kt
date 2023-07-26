@@ -13,6 +13,7 @@ import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.activity.DetailProdukActivity
 import com.cahyono.tokoonline.helper.Helper
 import com.cahyono.tokoonline.model.Produk
+import com.cahyono.tokoonline.util.Config
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import java.text.NumberFormat
@@ -46,7 +47,7 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>):Recycle
 //        holder.imgProduk.setImageResource(produk.image)
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 
-        val image = "http://api.readytowork.site/uploads/produk/"+data[position].image
+        val image = Config.productUrl + data[position].image
 
         Picasso.get()
             .load(image)
