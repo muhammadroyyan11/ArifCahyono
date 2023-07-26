@@ -64,6 +64,14 @@ class RiwayatActivity : AppCompatActivity() {
         super.onResume()
     }
 
+    override fun onPause(){
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()

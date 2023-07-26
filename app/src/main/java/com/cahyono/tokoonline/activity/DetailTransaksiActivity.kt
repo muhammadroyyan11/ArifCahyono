@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.View.GONE
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
@@ -95,9 +96,9 @@ class DetailTransaksiActivity : BaseActivity() {
                 // Use the uri to load the image
                 // Only if you are not using crop feature:
                 Log.d("Tag", "URI IMAGE: " +uri)
-                //////////////
-                val fileUri: Uri = uri
-                dialogUpload(File(fileUri.path!!))
+//                //////////////
+//                val fileUri: Uri = uri
+//                dialogUpload(File(fileUri.path!!))
             }
         }
 
@@ -144,7 +145,7 @@ class DetailTransaksiActivity : BaseActivity() {
                     if (response.body()!!.success == 1){
                         showSuccessDialog("Bukti berhasil di simpan"){
                             alertDialog!!.dismiss()
-                            btn_upload.toGone()
+                            btn_transfer.visibility = View.GONE
 
                             tv_status.text = "DIBAYAR"
                         }
