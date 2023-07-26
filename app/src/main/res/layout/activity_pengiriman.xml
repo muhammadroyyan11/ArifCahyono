@@ -347,7 +347,7 @@
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
-                            android:id="@+id/tv_total"
+                            android:id="@+id/tv_total_belanja"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="right"

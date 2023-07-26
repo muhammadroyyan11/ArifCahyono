@@ -22,7 +22,7 @@ interface DaoAlamat {
 //    @Query("SELECT * FROM alamat WHERE id = :id LIMIT 1")
 //    fun getProduk(id: Int): Alamat
 //
-    @Query("SELECT * FROM alamat WHERE isSelected = :status LIMIT 1")
+    @Query("SELECT * FROM alamat WHERE isSelected = :status ORDER BY id DESC LIMIT 1")
     fun getByStatus(status: Boolean): Alamat?
 //
 //    @Query("DELETE FROM alamat")

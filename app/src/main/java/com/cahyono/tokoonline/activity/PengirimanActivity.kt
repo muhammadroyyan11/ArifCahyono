@@ -1,3 +1,4 @@
+
 package com.cahyono.tokoonline.activity
 
 import android.annotation.SuppressLint
@@ -22,6 +23,7 @@ import com.cahyono.tokoonline.helper.Helper
 import com.cahyono.tokoonline.model.rajaongkir.Costs
 import com.cahyono.tokoonline.model.rajaongkir.ResponOngkir
 import com.cahyono.tokoonline.room.MyConnection
+import com.cahyono.tokoonline.room.MyDatabase
 import com.cahyono.tokoonline.util.ApiKey
 import retrofit2.Call
 import retrofit2.Callback
@@ -30,6 +32,7 @@ import retrofit2.Response
 class PengirimanActivity : AppCompatActivity() {
 
     lateinit var myDb: MyConnection
+    lateinit var myDbTwo: MyDatabase
     lateinit var btnTambahAlamat: Button
     lateinit var spn_kurir: Spinner
     lateinit var rv_metode: RecyclerView
@@ -41,6 +44,8 @@ class PengirimanActivity : AppCompatActivity() {
     lateinit var tv_nama: TextView
     lateinit var tv_phone: TextView
     lateinit var tv_alamat: TextView
+    lateinit var tv_totalBelanja: TextView
+    lateinit var tv_total_belanja: TextView
 
     var totalHarga = 0
 
@@ -49,9 +54,30 @@ class PengirimanActivity : AppCompatActivity() {
         setContentView(R.layout.activity_pengiriman)
 //        Helper().setToolbar(this, toolbar, "Pengiriman")
         myDb = MyConnection.getInstance(this)!!
-
+        myDbTwo = MyDatabase.getInstance(this)!!
         init()
+
+
+        val listProduk = myDbTwo.daoName().getAll() as ArrayList
+        var totalItem = 0
+        var totalHarga = 0
+//        val produks = ArrayList<Chekout.Item>()
+        for (p in listProduk) {
+            if (p.selected) {
+                totalItem += p.jumlah
+                totalHarga += (p.jumlah * Integer.valueOf(p.harga))
+
+                tv_totalBelanja.text = Helper().gantiRupiah(totalHarga)
+//                val produk = Chekout.Item()
+//                produk.id = "" + p.id
+//                produk.total_item = "" + p.jumlah
+//                produk.total_harga = "" + (p.jumlah * Integer.valueOf(p.harga))
+//                produk.catatan = "catatan baru"
+//                produks.add(produk)
+            }
+        }
         main()
+        setSepiner()
     }
 
     fun setSepiner() {
@@ -91,6 +117,8 @@ class PengirimanActivity : AppCompatActivity() {
             btnTambahAlamat.text = "Ubah Alamat"
 
             getOngkir("JNE")
+
+//            tv_total_belanja = (totalHarga + Integer.valueOf(ongkir)
         } else {
             div_alamat.visibility = View.GONE
             div_kosong.visibility = View.VISIBLE
@@ -102,7 +130,7 @@ class PengirimanActivity : AppCompatActivity() {
 
         val alamat = myDb.daoAlamat().getByStatus(true)
 
-        val origin = "501"
+        val origin = "255"
         val destination = "" + alamat!!.id_kota.toString()
         val berat = 1000
 
@@ -172,8 +200,26 @@ class PengirimanActivity : AppCompatActivity() {
     }
 
     fun setTotal(ongkir: String) {
-        tv_ongkir.text = Helper().gantiRupiah(ongkir)
-        tv_total.text = Helper().gantiRupiah(Integer.valueOf(ongkir) + totalHarga)
+        val listProduk = myDbTwo.daoName().getAll() as ArrayList
+        var totalItem = 0
+        var totalHarga = 0
+//        val produks = ArrayList<Chekout.Item>()
+        for (p in listProduk) {
+            if (p.selected) {
+                totalItem += p.jumlah
+                totalHarga += (p.jumlah * Integer.valueOf(p.harga))
+
+                tv_totalBelanja.text = Helper().gantiRupiah(totalHarga)
+//                val produk = Chekout.Item()
+//                produk.id = "" + p.id
+//                produk.total_item = "" + p.jumlah
+//                produk.total_harga = "" + (p.jumlah * Integer.valueOf(p.harga))
+//                produk.catatan = "catatan baru"
+//                produks.add(produk)
+                tv_ongkir.text = Helper().gantiRupiah(ongkir)
+                tv_total.text = Helper().gantiRupiah(Integer.valueOf(ongkir) + totalHarga)
+            }
+        }
     }
 
     fun init(){
@@ -181,7 +227,7 @@ class PengirimanActivity : AppCompatActivity() {
         spn_kurir = findViewById(R.id.spn_kurir)
         rv_metode = findViewById(R.id.rv_metode)
         tv_ongkir = findViewById(R.id.tv_ongkir)
-        tv_total = findViewById(R.id.tv_total)
+        tv_total = findViewById(R.id.tv_total_belanja)
 
         div_alamat = findViewById(R.id.div_alamat)
         div_kosong = findViewById(R.id.div_kosong)
@@ -190,6 +236,9 @@ class PengirimanActivity : AppCompatActivity() {
         tv_nama = findViewById(R.id.tv_nama_alamat)
         tv_phone = findViewById(R.id.tv_phone_alamat)
         tv_alamat = findViewById(R.id.tv_alamat_alamat)
+        tv_totalBelanja = findViewById(R.id.tv_totalBelanja)
+        tv_total_belanja = findViewById(R.id.tv_total_belanja)
+
 //        btn_tambahAlamat = findViewById(R.id.btn_tambahAlamatPengiriman)
     }
 

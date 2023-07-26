@@ -10,11 +10,13 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cahyono.tokoonline.R
+import com.cahyono.tokoonline.activity.MasukActivity
 import com.cahyono.tokoonline.activity.PengirimanActivity
 import com.cahyono.tokoonline.adapter.AdapterKeranjang
 import com.cahyono.tokoonline.adapter.AdapterProduk
 import com.cahyono.tokoonline.room.MyDatabase
 import com.cahyono.tokoonline.helper.Helper
+import com.cahyono.tokoonline.helper.SharedPref
 import com.cahyono.tokoonline.model.Produk
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -28,6 +30,7 @@ class KeranjangFragment : Fragment() {
 
     lateinit var rvTerlaris: RecyclerView
     private lateinit var produkAdapter: AdapterKeranjang
+    lateinit var s: SharedPref
 
     lateinit var myDb: MyDatabase
 
@@ -39,6 +42,7 @@ class KeranjangFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_keranjang, container, false)
         init(view)
         myDb = MyDatabase.getInstance(requireActivity())!!
+        s = SharedPref(requireActivity())
         mainButton()
         displayProduk()
 
@@ -88,31 +92,40 @@ class KeranjangFragment : Fragment() {
 
     }
 
-//    private fun delete(data: ArrayList<Produk>) {
-//        CompositeDisposable().add(Observable.fromCallable { myDb.daoName().delete(data) }
-//            .subscribeOn(Schedulers.computation())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe {
-//                listProduk.clear()
-//                listProduk.addAll(myDb.daoName().getAll() as ArrayList)
-//                adapter.notifyDataSetChanged()
-//            })
-//    }
 
     var listProduk = ArrayList<Produk>()
     lateinit var adapter: AdapterKeranjang
     private fun mainButton(){
-//        btnDelete.setOnClickListener {
-//            val listDelete = ArrayList<Produk>()
-//            for (p in listProduk) {
-//                if (p.selected) listDelete.add(p)
-//            }
-//
-//            delete(listDelete)
-//        }
 
         btnBayar.setOnClickListener {
             startActivity(Intent(requireActivity(), PengirimanActivity::class.java))
+            if (s.getStatusLogin()) {
+                var isThereProduk = false
+                for (p in listProduk) {
+                    if (p.selected){
+                        val intent = Intent(requireActivity(), PengirimanActivity::class.java)
+                        intent.putExtra("extra", "" + totalHarga)
+                        startActivity(intent)
+                    }
+                }
+
+//                if (isThereProduk) {
+//                    val intent = Intent(requireActivity(), PengirimanActivity::class.java)
+//                    intent.putExtra("extra", "" + totalHarga)
+//                    startActivity(intent)
+//                } else {
+//                    Toast.makeText(requireContext(), "Tidak ada produk yg terpilih", Toast.LENGTH_SHORT).show()
+//                }
+
+            } else {
+                requireActivity().startActivity(Intent(requireActivity(), MasukActivity::class.java))
+            }
+//            val listProduk = myDb.daoName().getAll() // get All data
+//            for(produk :Produk in listProduk){
+//                println("-----------------------")
+//                println(produk.name)
+//                println(produk.selected)
+//            }
         }
 
 //        cbAll.setOnClickListener {
