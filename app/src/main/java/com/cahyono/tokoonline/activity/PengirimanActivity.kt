@@ -46,6 +46,7 @@ class PengirimanActivity : AppCompatActivity() {
     lateinit var tv_alamat: TextView
     lateinit var tv_totalBelanja: TextView
     lateinit var tv_total_belanja: TextView
+    lateinit var btn_bayar: Button
 
     var totalHarga = 0
 
@@ -78,6 +79,8 @@ class PengirimanActivity : AppCompatActivity() {
         }
         main()
         setSepiner()
+        bayar()
+        getInfo()
     }
 
     fun setSepiner() {
@@ -224,6 +227,7 @@ class PengirimanActivity : AppCompatActivity() {
 
     fun init(){
         btnTambahAlamat = findViewById(R.id.btn_tambahAlamatPengiriman)
+        btn_bayar = findViewById(R.id.btn_bayar_pengiriman)
         spn_kurir = findViewById(R.id.spn_kurir)
         rv_metode = findViewById(R.id.rv_metode)
         tv_ongkir = findViewById(R.id.tv_ongkir)
@@ -240,6 +244,21 @@ class PengirimanActivity : AppCompatActivity() {
         tv_total_belanja = findViewById(R.id.tv_total_belanja)
 
 //        btn_tambahAlamat = findViewById(R.id.btn_tambahAlamatPengiriman)
+    }
+
+    fun bayar(){
+        btn_bayar.setOnClickListener{
+            startActivity(Intent(this, PembayaranActivity::class.java))
+        }
+    }
+
+    fun getInfo(){
+        var tlbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        // Set toolbarsindar@mail.com
+        setSupportActionBar(tlbar)
+        supportActionBar!!.title = "Pengiriman"
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     fun main(){

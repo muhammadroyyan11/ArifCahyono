@@ -52,6 +52,7 @@ class TambahAlamatActivity : AppCompatActivity() {
 
         init()
         mainButton()
+        getInfo()
         getProvinsi()
 //        Helper().setToolbar(this, toolbar, "Tambah Alamat")
     }
@@ -136,6 +137,15 @@ class TambahAlamatActivity : AppCompatActivity() {
     private fun error(editText: EditText) {
         editText.error = "Kolom tidak boleh kosong"
         editText.requestFocus()
+    }
+
+    fun getInfo(){
+        var tlbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        // Set toolbarsindar@mail.com
+        setSupportActionBar(tlbar)
+        supportActionBar!!.title = "Alamat Pengiriman"
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun getProvinsi() {
