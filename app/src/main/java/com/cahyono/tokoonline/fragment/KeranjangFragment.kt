@@ -2,6 +2,7 @@ package com.cahyono.tokoonline.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -97,17 +98,28 @@ class KeranjangFragment : Fragment() {
     lateinit var adapter: AdapterKeranjang
     private fun mainButton(){
 
+//        if(totalHarga != 0){
+//            btnBayar.visibility = View.VISIBLE
+//        }
         btnBayar.setOnClickListener {
-            startActivity(Intent(requireActivity(), PengirimanActivity::class.java))
-            if (s.getStatusLogin()) {
-                var isThereProduk = false
-                for (p in listProduk) {
-                    if (p.selected){
-                        val intent = Intent(requireActivity(), PengirimanActivity::class.java)
-                        intent.putExtra("extra", "" + totalHarga)
-                        startActivity(intent)
+            if(totalHarga != 0) {
+                startActivity(Intent(requireActivity(), PengirimanActivity::class.java))
+                if (s.getStatusLogin()) {
+                    var isThereProduk = false
+                    for (p in listProduk) {
+                        if (p.selected) {
+                            startActivity(Intent(requireActivity(), PengirimanActivity::class.java))
+                            val intent = Intent(requireActivity(), PengirimanActivity::class.java)
+                            intent.putExtra("extra", "" + totalHarga)
+                            startActivity(intent)
+                        } else {
+                            Toast.makeText(
+                                requireContext(),
+                                "Tidak ada produk yg terpilih",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     }
-                }
 
 //                if (isThereProduk) {
 //                    val intent = Intent(requireActivity(), PengirimanActivity::class.java)
@@ -117,15 +129,23 @@ class KeranjangFragment : Fragment() {
 //                    Toast.makeText(requireContext(), "Tidak ada produk yg terpilih", Toast.LENGTH_SHORT).show()
 //                }
 
-            } else {
-                requireActivity().startActivity(Intent(requireActivity(), MasukActivity::class.java))
-            }
+                } else {
+                    requireActivity().startActivity(
+                        Intent(
+                            requireActivity(),
+                            MasukActivity::class.java
+                        )
+                    )
+                }
 //            val listProduk = myDb.daoName().getAll() // get All data
 //            for(produk :Produk in listProduk){
 //                println("-----------------------")
 //                println(produk.name)
 //                println(produk.selected)
 //            }
+            } else{
+                Log.d("Tag", "Total: " + totalHarga)
+            }
         }
 
 //        cbAll.setOnClickListener {

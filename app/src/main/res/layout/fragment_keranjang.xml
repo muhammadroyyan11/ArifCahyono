@@ -82,6 +82,7 @@
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="Bayar"
+                android:visibility="visible"
                 android:textColor="@color/white"
                 android:textSize="15dp"
                 android:textStyle="bold" />

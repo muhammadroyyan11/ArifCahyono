@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.cahyono.tokoonline.MainActivity
 import com.google.gson.Gson
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.adapter.AdapterRiwayat
@@ -64,12 +65,12 @@ class RiwayatActivity : AppCompatActivity() {
         super.onResume()
     }
 
-    override fun onPause(){
-        super.onPause()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onBackPressed() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        finish()
+        super.onBackPressed()
     }
 
     override fun onSupportNavigateUp(): Boolean {
