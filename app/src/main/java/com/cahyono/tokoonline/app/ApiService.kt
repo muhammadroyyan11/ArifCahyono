@@ -71,8 +71,9 @@ interface ApiService {
     ): Call<ResponModel>
 
     @Multipart
-    @POST("chekout/upload")
+    @POST("chekout/upload/{id}")
     fun uploadBukti(
+        @Path("id") id: Int,
         @Part image: MultipartBody.Part
     ): Call<ResponModel>
 

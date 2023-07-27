@@ -150,7 +150,7 @@ class DetailProdukActivity : AppCompatActivity() {
         tvHarga.text = Helper().gantiRupiah(produk.harga)
         tvDesc.text = produk.deskripsi
 
-        val img = "http://192.168.253.147/TokoOnlineWebMaster/storage/app/public/produk/" + produk.image
+        val img = "https://dev.kobis.id/storage/produk/" + produk.image
 
         Picasso.get()
             .load(img)

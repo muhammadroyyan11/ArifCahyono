@@ -97,8 +97,8 @@ class DetailTransaksiActivity : BaseActivity() {
                 // Only if you are not using crop feature:
                 Log.d("Tag", "URI IMAGE: " +uri)
 //                //////////////
-//                val fileUri: Uri = uri
-//                dialogUpload(File(fileUri.path!!))
+                val fileUri: Uri = uri
+                dialogUpload(File(fileUri.path!!))
             }
         }
 
@@ -136,7 +136,7 @@ class DetailTransaksiActivity : BaseActivity() {
 
         progress.show()
         val fileImage = file.toMultipartBody()
-        ApiConfig.instanceRetrofit.uploadBukti(fileImage!!).enqueue(object :
+        ApiConfig.instanceRetrofit.uploadBukti(transaksi.id, fileImage!!).enqueue(object :
             Callback<ResponModel> {
 
             override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
@@ -145,9 +145,9 @@ class DetailTransaksiActivity : BaseActivity() {
                     if (response.body()!!.success == 1){
                         showSuccessDialog("Bukti berhasil di simpan"){
                             alertDialog!!.dismiss()
-                            btn_transfer.visibility = View.GONE
+                            btn_transfer.toGone()
 
-                            tv_status.text = "DIBAYAR"
+//                            tv_status.text = "DIBAYAR"
                         }
                     } else{
                         showErrorDialog(response.body()!!.message)
