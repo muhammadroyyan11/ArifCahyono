@@ -44,7 +44,7 @@ class AkunFragment : Fragment() {
 
         val view: View = inflater.inflate(R.layout.fragment_akun, container, false)
 
-        btnLogout = view.findViewById<TextView>(R.id.btn_logout)
+            btnLogout = view.findViewById<TextView>(R.id.btn_logout)
         tvNama = view.findViewById<TextView>(R.id.tv_nama)
         tvEmail = view.findViewById<TextView>(R.id.tv_email)
         tvPhone = view.findViewById<TextView>(R.id.tv_phone)

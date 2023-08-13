@@ -3,19 +3,15 @@ package com.cahyono.tokoonline.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.cahyono.tokoonline.BuildConfig.BASE_URL
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.adapter.AdapterKurir
 import com.cahyono.tokoonline.app.ApiConfigAlamat
@@ -27,10 +23,24 @@ import com.cahyono.tokoonline.model.rajaongkir.ResponOngkir
 import com.cahyono.tokoonline.room.MyConnection
 import com.cahyono.tokoonline.room.MyDatabase
 import com.cahyono.tokoonline.util.ApiKey
+import com.google.android.gms.common.internal.service.Common.CLIENT_KEY
 import com.google.gson.Gson
+import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback
+import com.midtrans.sdk.corekit.core.MidtransSDK
+import com.midtrans.sdk.corekit.core.TransactionRequest
+import com.midtrans.sdk.corekit.core.themes.CustomColorTheme
+import com.midtrans.sdk.corekit.models.BillingAddress
+import com.midtrans.sdk.corekit.models.CustomerDetails
+import com.midtrans.sdk.corekit.models.ItemDetails
+import com.midtrans.sdk.corekit.models.ShippingAddress
+import com.midtrans.sdk.uikit.SdkUIFlowBuilder
+import com.midtrans.sdk.uikit.SdkUIFlowBuilder.*
+import com.midtrans.sdk.uikit.api.model.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+
 
 class PengirimanActivity : AppCompatActivity() {
 
@@ -38,6 +48,7 @@ class PengirimanActivity : AppCompatActivity() {
     lateinit var myDbTwo: MyDatabase
     lateinit var btnTambahAlamat: Button
     lateinit var spn_kurir: Spinner
+//    lateinit var spn_hari: Spinner
     lateinit var rv_metode: RecyclerView
     lateinit var tv_ongkir: TextView
     lateinit var tv_total: TextView
@@ -72,12 +83,6 @@ class PengirimanActivity : AppCompatActivity() {
                 totalHarga += (p.jumlah * Integer.valueOf(p.harga))
 
                 tv_totalBelanja.text = Helper().gantiRupiah(totalHarga)
-//                val produk = Chekout.Item()
-//                produk.id = "" + p.id
-//                produk.total_item = "" + p.jumlah
-//                produk.total_harga = "" + (p.jumlah * Integer.valueOf(p.harga))
-//                produk.catatan = "catatan baru"
-//                produks.add(produk)
             }
         }
         main()
@@ -105,10 +110,27 @@ class PengirimanActivity : AppCompatActivity() {
                 }
             }
         }
+
+        val adapterHari = ArrayAdapter<Any>(this, R.layout.item_spinner, arryString.toTypedArray())
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        spn_hari.adapter = adapter
+//        spn_hari.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//
+//            }
+//
+//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+//                if (position != 0) {
+//                    getOngkir(spn_kurir.selectedItem.toString())
+//                }
+//            }
+//        }
     }
 
     @SuppressLint("SetTextI18n")
     fun chekAlamat() {
+
+
 
         if (myDb.daoAlamat().getByStatus(true) != null) {
             div_alamat.visibility = View.VISIBLE
@@ -116,9 +138,10 @@ class PengirimanActivity : AppCompatActivity() {
             div_metodePengiriman.visibility = View.VISIBLE
 
             val a = myDb.daoAlamat().getByStatus(true)!!
+            val alamatLengkap = a.alamat + ", " + a.kota + ", " + a.kodepos + ", (" + a.type + ")"
             tv_nama.text = a.name
             tv_phone.text = a.phone
-            tv_alamat.text = a.alamat + ", " + a.kota + ", " + a.kodepos + ", (" + a.type + ")"
+            tv_alamat.text = alamatLengkap
             btnTambahAlamat.text = "Ubah Alamat"
 
             getOngkir("JNE")
@@ -149,7 +172,6 @@ class PengirimanActivity : AppCompatActivity() {
                     if (result.isNotEmpty()) {
                         displayOngkir(result[0].code.toUpperCase(), result[0].costs)
                     }
-
 
                 } else {
                     Log.d("Error", "gagal memuat data:" + response.message())
@@ -215,12 +237,6 @@ class PengirimanActivity : AppCompatActivity() {
                 totalHarga += (p.jumlah * Integer.valueOf(p.harga))
 
                 tv_totalBelanja.text = Helper().gantiRupiah(totalHarga)
-//                val produk = Chekout.Item()
-//                produk.id = "" + p.id
-//                produk.total_item = "" + p.jumlah
-//                produk.total_harga = "" + (p.jumlah * Integer.valueOf(p.harga))
-//                produk.catatan = "catatan baru"
-//                produks.add(produk)
                 tv_ongkir.text = Helper().gantiRupiah(ongkir)
                 tv_total.text = Helper().gantiRupiah(Integer.valueOf(ongkir) + totalHarga)
             }
@@ -231,6 +247,7 @@ class PengirimanActivity : AppCompatActivity() {
         btnTambahAlamat = findViewById(R.id.btn_tambahAlamatPengiriman)
         btn_bayar = findViewById(R.id.btn_bayar_pengiriman)
         spn_kurir = findViewById(R.id.spn_kurir)
+//        spn_hari = findViewById(R.id.spn_hariPengiriman)
         rv_metode = findViewById(R.id.rv_metode)
         tv_ongkir = findViewById(R.id.tv_ongkir)
         tv_total = findViewById(R.id.tv_total_belanja)
@@ -250,6 +267,19 @@ class PengirimanActivity : AppCompatActivity() {
 
     fun bayar(){
         //to be
+
+        SdkUIFlowBuilder.init()
+            .setClientKey("SB-Mid-client-n81rlwsHsWFiWZW9") // client_key is mandatory
+            .setContext(applicationContext) // context is mandatory
+            .setTransactionFinishedCallback({
+                    result ->
+            }) // set transaction finish callback (sdk callback)
+            .setMerchantBaseUrl("https://api.readytowork.site/midtrans.php/") //set merchant url (required)
+            .enableLog(true) // enable sdk log (optional)
+            .setLanguage("id")
+            .setColorTheme(com.midtrans.sdk.corekit.core.themes.CustomColorTheme("#002855", "#B61548", "#FFE51255"))
+            .buildSDK()
+
         val user = SharedPref(this).getUser()!!
         val a = myDb.daoAlamat().getByStatus(true)!!
 
@@ -284,11 +314,63 @@ class PengirimanActivity : AppCompatActivity() {
         chekout.total_transfer = "" + (totalHarga + Integer.valueOf(ongkir))
         chekout.produks = produks
 
+        val totalTf = chekout.total_transfer.toDouble()
+
         val json = Gson().toJson(chekout, Chekout::class.java)
         Log.d("Respon:", "json:" + json)
-        val intent = Intent(this, PembayaranActivity::class.java)
-        intent.putExtra("extra", json)
-        startActivity(intent)
+//        val intent = Intent(this, PaymentGateway::class.java)
+//        intent.putExtra("extra", json)
+//        startActivity(intent)
+        val transactionRequest = TransactionRequest("umkm-duwet-"+System.currentTimeMillis().toShort()+"", totalHarga.toDouble())
+        println(totalTf)
+        val itemDetails = ArrayList<ItemDetails>()
+        for(pm in listProduk){
+
+            val detail = com.midtrans.sdk.corekit.models.ItemDetails(pm.id.toString(), pm.harga.toDouble(), totalItem, "Testing")
+            itemDetails.add(detail)
+            for (i in itemDetails){
+                println(i.id)
+                println("-----")
+                println(i.price)
+            }
+        }
+
+//        val ongkir = com.midtrans.sdk.corekit.models.ItemDetails("Onkir", chekout.ongkir.toDouble(), 1, "Ongkir")
+//        itemDetails.add(ongkir)
+
+
+
+        uiKitDetails(transactionRequest)
+
+        transactionRequest.itemDetails = itemDetails
+        MidtransSDK.getInstance().transactionRequest = transactionRequest
+        MidtransSDK.getInstance().startPaymentUiFlow(this)
+
+        val ts =  TimeZone.getDefault()
+//        Log.d("time", System.currentTimeMillis().toShort())
+    }
+
+    fun uiKitDetails(transactionRequest: TransactionRequest){
+        val customerDetails = CustomerDetails()
+        customerDetails.customerIdentifier = "Arif"
+        customerDetails.phone = "01928031203"
+        customerDetails.email = "rod@mail.com"
+        customerDetails.firstName = "Arif"
+        customerDetails.lastName = "Cahyono"
+
+        val shippingAddress = ShippingAddress()
+        shippingAddress.address = "Arjosari"
+        shippingAddress.city = "Malang"
+        shippingAddress.postalCode = "65162"
+        customerDetails.shippingAddress = shippingAddress
+
+        val billingAddress = BillingAddress()
+        billingAddress.address = "Arjosari"
+        billingAddress.city = "Malang"
+        billingAddress.postalCode = "65162"
+        customerDetails.billingAddress = billingAddress
+
+        transactionRequest.customerDetails = customerDetails
     }
 
     fun getInfo(){
