@@ -272,12 +272,12 @@ class PengirimanActivity : AppCompatActivity() {
             .setClientKey("SB-Mid-client-n81rlwsHsWFiWZW9") // client_key is mandatory
             .setContext(applicationContext) // context is mandatory
             .setTransactionFinishedCallback({
-                    result ->
+                    result -> isDestroyed
             }) // set transaction finish callback (sdk callback)
             .setMerchantBaseUrl("https://api.readytowork.site/midtrans.php/") //set merchant url (required)
             .enableLog(true) // enable sdk log (optional)
             .setLanguage("id")
-            .setColorTheme(com.midtrans.sdk.corekit.core.themes.CustomColorTheme("#002855", "#B61548", "#FFE51255"))
+            .setColorTheme(com.midtrans.sdk.corekit.core.themes.CustomColorTheme("#002855", "#002855", "#002855"))
             .buildSDK()
 
         val user = SharedPref(this).getUser()!!
@@ -314,40 +314,39 @@ class PengirimanActivity : AppCompatActivity() {
         chekout.total_transfer = "" + (totalHarga + Integer.valueOf(ongkir))
         chekout.produks = produks
 
-        val totalTf = chekout.total_transfer.toDouble()
+        val totalTf = totalHarga + Integer.valueOf(ongkir)
 
         val json = Gson().toJson(chekout, Chekout::class.java)
         Log.d("Respon:", "json:" + json)
 //        val intent = Intent(this, PaymentGateway::class.java)
 //        intent.putExtra("extra", json)
 //        startActivity(intent)
-        val transactionRequest = TransactionRequest("umkm-duwet-"+System.currentTimeMillis().toShort()+"", totalHarga.toDouble())
+        val transactionRequest = TransactionRequest("umkm-duwet-"+System.currentTimeMillis().toShort()+"", totalTf.toDouble())
         println(totalTf)
         val itemDetails = ArrayList<ItemDetails>()
         for(pm in listProduk){
 
-            val detail = com.midtrans.sdk.corekit.models.ItemDetails(pm.id.toString(), pm.harga.toDouble(), totalItem, "Testing")
+            val detail = com.midtrans.sdk.corekit.models.ItemDetails("", pm.harga.toDouble(), pm.jumlah, "Testing")
             itemDetails.add(detail)
             for (i in itemDetails){
-                println(i.id)
                 println("-----")
+                println(i.id)
+
                 println(i.price)
             }
         }
 
-//        val ongkir = com.midtrans.sdk.corekit.models.ItemDetails("Onkir", chekout.ongkir.toDouble(), 1, "Ongkir")
-//        itemDetails.add(ongkir)
-
-
+        val ongkir = com.midtrans.sdk.corekit.models.ItemDetails("", chekout.ongkir.toDouble(), 1, "Ongkir")
+        itemDetails.add(ongkir)
 
         uiKitDetails(transactionRequest)
-
         transactionRequest.itemDetails = itemDetails
         MidtransSDK.getInstance().transactionRequest = transactionRequest
         MidtransSDK.getInstance().startPaymentUiFlow(this)
 
         val ts =  TimeZone.getDefault()
 //        Log.d("time", System.currentTimeMillis().toShort())
+        itemDetails.clear()
     }
 
     fun uiKitDetails(transactionRequest: TransactionRequest){
