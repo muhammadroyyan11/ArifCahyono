@@ -48,7 +48,7 @@ class PengirimanActivity : AppCompatActivity() {
     lateinit var myDbTwo: MyDatabase
     lateinit var btnTambahAlamat: Button
     lateinit var spn_kurir: Spinner
-//    lateinit var spn_hari: Spinner
+    lateinit var spn_hari: Spinner
     lateinit var rv_metode: RecyclerView
     lateinit var tv_ongkir: TextView
     lateinit var tv_total: TextView
@@ -63,6 +63,8 @@ class PengirimanActivity : AppCompatActivity() {
     lateinit var btn_bayar: Button
 
     var totalHarga = 0
+
+    val hari = arrayOf("Sabtu", "Minggu")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,20 +113,20 @@ class PengirimanActivity : AppCompatActivity() {
             }
         }
 
-        val adapterHari = ArrayAdapter<Any>(this, R.layout.item_spinner, arryString.toTypedArray())
+        val adapterHari = ArrayAdapter<Any>(this, R.layout.item_spinner, hari)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-//        spn_hari.adapter = adapter
-//        spn_hari.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//            override fun onNothingSelected(parent: AdapterView<*>?) {
-//
-//            }
-//
-//            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-//                if (position != 0) {
-//                    getOngkir(spn_kurir.selectedItem.toString())
-//                }
-//            }
-//        }
+        spn_hari.adapter = adapter
+        spn_hari.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                if (position != 0) {
+                    getOngkir(spn_hari.selectedItem.toString())
+                }
+            }
+        }
     }
 
     @SuppressLint("SetTextI18n")
