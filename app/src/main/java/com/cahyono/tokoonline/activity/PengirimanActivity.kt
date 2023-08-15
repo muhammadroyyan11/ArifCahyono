@@ -114,8 +114,8 @@ class PengirimanActivity : AppCompatActivity() {
         }
 
         val adapterHari = ArrayAdapter<Any>(this, R.layout.item_spinner, hari)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spn_hari.adapter = adapter
+        adapterHari.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spn_hari.adapter = adapterHari
         spn_hari.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
@@ -123,7 +123,7 @@ class PengirimanActivity : AppCompatActivity() {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 if (position != 0) {
-                    getOngkir(spn_hari.selectedItem.toString())
+                    spn_hari.selectedItem.toString()
                 }
             }
         }
@@ -249,7 +249,7 @@ class PengirimanActivity : AppCompatActivity() {
         btnTambahAlamat = findViewById(R.id.btn_tambahAlamatPengiriman)
         btn_bayar = findViewById(R.id.btn_bayar_pengiriman)
         spn_kurir = findViewById(R.id.spn_kurir)
-//        spn_hari = findViewById(R.id.spn_hariPengiriman)
+        spn_hari = findViewById(R.id.spn_hari)
         rv_metode = findViewById(R.id.rv_metode)
         tv_ongkir = findViewById(R.id.tv_ongkir)
         tv_total = findViewById(R.id.tv_total_belanja)
