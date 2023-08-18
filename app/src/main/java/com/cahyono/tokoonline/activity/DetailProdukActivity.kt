@@ -38,11 +38,9 @@ class DetailProdukActivity : AppCompatActivity() {
         myDb = MyDatabase.getInstance(this)!!
 
         val btn_keranjang = findViewById<RelativeLayout>(R.id.btn_keranjang)
-//        val btn_favorit = findViewById<RelativeLayout>(R.id.btn_favorit)
         val btn_toKeranjang = findViewById<RelativeLayout>(R.id.btn_toKeranjang)
         val btn_beliSekarang = findViewById<RelativeLayout>(R.id.btn_beliSekarang)
 
-//        initDatabase()
         getInfo()
         checkKeranjang()
 
@@ -66,17 +64,6 @@ class DetailProdukActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-
-//        btn_favorit.setOnClickListener {
-////            loadData()// call database
-//            val listProduk = myDb.daoName().getAll() // get All data
-//            for(produk :Produk in listProduk){
-//                println("-----------------------")
-//                println(produk.name)
-//                println(produk.harga)
-//            }
-//
-//        }
 
         btn_keranjang.setOnClickListener {
         val data = myDb!!.daoName().getProduk(produk.id)
@@ -103,10 +90,6 @@ class DetailProdukActivity : AppCompatActivity() {
     }
 
     private fun saveName() {
-//        val note = Produk() //create new note
-//        note.name = produk.name
-//        note.harga = produk.harga
-//        note.image = produk.image
 
         CompositeDisposable().add(Observable.fromCallable { myDb.daoName().insertAll(produk) }
             .subscribeOn(Schedulers.computation())
