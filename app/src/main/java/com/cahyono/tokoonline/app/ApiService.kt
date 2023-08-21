@@ -77,14 +77,4 @@ interface ApiService {
         @Part image: MultipartBody.Part
     ): Call<ResponModel>
 
-//    @FormUrlEncoded
-//    @POST("cost")
-//    fun ongkir(
-//        @Header("key") key: String,
-//        @Field("origin") origin: String,
-//        @Field("destination") destination: String,
-//        @Field("weight") weight: Int,
-//        @Field("courier") courier: String
-//    ): Call<ResponOngkir>
-
 }

@@ -11,13 +11,18 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.cahyono.tokoonline.BuildConfig.BASE_URL
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.adapter.AdapterKurir
+import com.cahyono.tokoonline.app.ApiConfig
 import com.cahyono.tokoonline.app.ApiConfigAlamat
 import com.cahyono.tokoonline.helper.Helper
 import com.cahyono.tokoonline.helper.SharedPref
+import com.cahyono.tokoonline.model.Bank
 import com.cahyono.tokoonline.model.Chekout
+import com.cahyono.tokoonline.model.ResponModel
+import com.cahyono.tokoonline.model.Transaksi
 import com.cahyono.tokoonline.model.rajaongkir.Costs
 import com.cahyono.tokoonline.model.rajaongkir.ResponOngkir
 import com.cahyono.tokoonline.room.MyConnection
@@ -64,7 +69,7 @@ class PengirimanActivity : AppCompatActivity() {
 
     var totalHarga = 0
 
-    val hari = arrayOf("Sabtu", "Minggu")
+    val hari = arrayOf("Rabu", "Sabtu")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -190,6 +195,7 @@ class PengirimanActivity : AppCompatActivity() {
     var ongkir = "0"
     var kurir = ""
     var jasaKirim = ""
+
     private fun displayOngkir(_kurir: String, arrayList: ArrayList<Costs>) {
 
         var arrayOngkir = ArrayList<Costs>()
@@ -315,14 +321,14 @@ class PengirimanActivity : AppCompatActivity() {
         chekout.detail_lokasi = tv_alamat.text.toString()
         chekout.total_transfer = "" + (totalHarga + Integer.valueOf(ongkir))
         chekout.produks = produks
+        chekout.bank = "Midtrans"
+        chekout.hari = spn_hari.selectedItem.toString()
 
         val totalTf = totalHarga + Integer.valueOf(ongkir)
 
         val json = Gson().toJson(chekout, Chekout::class.java)
         Log.d("Respon:", "json:" + json)
-//        val intent = Intent(this, PaymentGateway::class.java)
-//        intent.putExtra("extra", json)
-//        startActivity(intent)
+
         val transactionRequest = TransactionRequest("umkm-duwet-"+System.currentTimeMillis().toShort()+"", totalTf.toDouble())
         println(totalTf)
         val itemDetails = ArrayList<ItemDetails>()
@@ -345,6 +351,42 @@ class PengirimanActivity : AppCompatActivity() {
         transactionRequest.itemDetails = itemDetails
         MidtransSDK.getInstance().transactionRequest = transactionRequest
         MidtransSDK.getInstance().startPaymentUiFlow(this)
+
+        val loading = SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE)
+//        loading.setTitleText("Loading...").show()
+
+        ApiConfig.instanceRetrofit.chekout(chekout).enqueue(object : Callback<ResponModel> {
+            override fun onFailure(call: Call<ResponModel>, t: Throwable) {
+//                loading.dismiss()
+                error(t.message.toString())
+//                Toast.makeText(this, "Error:" + t.message, Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onResponse(call: Call<ResponModel>, response: Response<ResponModel>) {
+//                loading.dismiss()
+                if (!response.isSuccessful) {
+                    error(response.message())
+                    return
+                }
+
+                val respon = response.body()!!
+                if (respon.success == 1) {
+
+//                    val jsBank = Gson().toJson(bank, Bank::class.java)
+                    val jsTransaksi = Gson().toJson(respon.transaksi, Transaksi::class.java)
+                    val jsChekout = Gson().toJson(chekout, Chekout::class.java)
+
+//                    val intent = Intent(this@PengirimanActivity, SuccessActivity::class.java)
+//                    intent.putExtra("transaksi", jsTransaksi)
+//                    intent.putExtra("chekout", jsChekout)
+//                    startActivity(intent)
+
+                } else {
+                    error(respon.message)
+                    Toast.makeText(this@PengirimanActivity, "Error:" + respon.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
 
         val ts =  TimeZone.getDefault()
 //        Log.d("time", System.currentTimeMillis().toShort())

@@ -87,7 +87,6 @@ class AdapterKeranjang(var activity: Activity, var data: ArrayList<Produk>, var 
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 
         holder.checkbox.isChecked = produk.selected
-//        holder.checkbox.setOn
         holder.checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
             produk.selected = isChecked
             update(produk)

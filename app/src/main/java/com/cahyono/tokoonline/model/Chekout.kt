@@ -12,6 +12,7 @@ class Chekout {
     lateinit var ongkir: String
     lateinit var total_transfer: String
     lateinit var bank: String
+    lateinit var hari: String
     var produks = ArrayList<Item>()
 
     class Item {

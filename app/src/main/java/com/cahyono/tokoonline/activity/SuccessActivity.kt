@@ -69,9 +69,9 @@ class SuccessActivity : AppCompatActivity() {
             myDb.daoName().deleteById(produk.id)
         }
 
-        tv_nomorRekening.text = bank.rekening
-        tv_namaPenerima.text = bank.penerima
-        image_bank.setImageResource(bank.image)
+        tv_nomorRekening.text = "Via midtrans"
+        tv_namaPenerima.text = "UMKM Duwet"
+//        image_bank.setImageResource(bank.image)
 
         nominal = Integer.valueOf(chekout.total_transfer)
         tv_nominal.text = Helper().gantiRupiah(nominal)

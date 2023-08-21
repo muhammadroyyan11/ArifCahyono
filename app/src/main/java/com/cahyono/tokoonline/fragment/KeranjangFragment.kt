@@ -74,10 +74,6 @@ class KeranjangFragment : Fragment() {
         rvProduk.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         rvProduk.setHasFixedSize(true)
 
-//        produkAdapter = ArrayList()
-
-//        arrTerlarsis()
-
         produkAdapter = AdapterKeranjang(requireActivity(), listProduk, object : AdapterKeranjang.Listeners {
             override fun onUpdate() {
                 hitungTotal()
@@ -97,10 +93,6 @@ class KeranjangFragment : Fragment() {
     var listProduk = ArrayList<Produk>()
     lateinit var adapter: AdapterKeranjang
     private fun mainButton(){
-
-//        if(totalHarga != 0){
-//            btnBayar.visibility = View.VISIBLE
-//        }
         btnBayar.setOnClickListener {
             if(totalHarga != 0) {
                 startActivity(Intent(requireActivity(), PengirimanActivity::class.java))
@@ -121,14 +113,6 @@ class KeranjangFragment : Fragment() {
                         }
                     }
 
-//                if (isThereProduk) {
-//                    val intent = Intent(requireActivity(), PengirimanActivity::class.java)
-//                    intent.putExtra("extra", "" + totalHarga)
-//                    startActivity(intent)
-//                } else {
-//                    Toast.makeText(requireContext(), "Tidak ada produk yg terpilih", Toast.LENGTH_SHORT).show()
-//                }
-
                 } else {
                     requireActivity().startActivity(
                         Intent(
@@ -137,25 +121,10 @@ class KeranjangFragment : Fragment() {
                         )
                     )
                 }
-//            val listProduk = myDb.daoName().getAll() // get All data
-//            for(produk :Produk in listProduk){
-//                println("-----------------------")
-//                println(produk.name)
-//                println(produk.selected)
-//            }
             } else{
                 Log.d("Tag", "Total: " + totalHarga)
             }
         }
-
-//        cbAll.setOnClickListener {
-//            for (i in listProduk.indices) {
-//                val produk = listProduk[i]
-//                produk.selected = cbAll.isChecked
-//                listProduk[i] = produk
-//            }
-//            adapter.notifyDataSetChanged()
-//        }
     }
 
     lateinit var btnDelete: ImageView
@@ -164,13 +133,9 @@ class KeranjangFragment : Fragment() {
     lateinit var btnBayar: TextView
 
     private fun init(view: View){
-//        btnDelete = view.findViewById(R.id.btn_delete)
         rvProduk = view.findViewById(R.id.rv_keranjang)
         tvTotal = view.findViewById(R.id.tv_total)
         btnBayar = view.findViewById(R.id.btn_bayar)
-//        cbAll = view.findViewById(R.id.cb_all)
-
-//        rv_produk = view.findViewById(R.id.rv_produk)
     }
 
     override fun onResume(){

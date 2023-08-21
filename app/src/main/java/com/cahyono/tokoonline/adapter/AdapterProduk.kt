@@ -44,7 +44,6 @@ class AdapterProduk(var activity: Activity, var data: ArrayList<Produk>):Recycle
         val produk = data[position]
 
         holder.tvNama.text = produk.name
-//        holder.imgProduk.setImageResource(produk.image)
         holder.tvHarga.text = Helper().gantiRupiah(data[position].harga)
 
         val image = Config.productUrl + data[position].image
