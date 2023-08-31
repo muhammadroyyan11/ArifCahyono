@@ -14,7 +14,10 @@ import com.cahyono.tokoonline.MainActivity
 import com.cahyono.tokoonline.R
 import com.cahyono.tokoonline.activity.LoginActivity
 import com.cahyono.tokoonline.activity.RiwayatActivity
+import com.cahyono.tokoonline.activity.UpdatePasswordActivity
+import com.cahyono.tokoonline.activity.UpdateProfileActivity
 import com.cahyono.tokoonline.helper.SharedPref
+import kotlinx.android.synthetic.main.fragment_akun.*
 
 /**
  * A simple [Fragment] subclass.
@@ -30,6 +33,8 @@ class AkunFragment : Fragment() {
     lateinit var btnKeranjang:RelativeLayout
     lateinit var btnTentang:RelativeLayout
     lateinit var btnRiwayat: RelativeLayout
+    lateinit var btnUpdate: RelativeLayout
+    lateinit var btnProfie: RelativeLayout
 
     lateinit var sm: FragmentManager
 
@@ -41,7 +46,7 @@ class AkunFragment : Fragment() {
 
         val view: View = inflater.inflate(R.layout.fragment_akun, container, false)
 
-            btnLogout = view.findViewById<TextView>(R.id.btn_logout)
+        btnLogout = view.findViewById<TextView>(R.id.btn_logout)
         tvNama = view.findViewById<TextView>(R.id.tv_nama)
         tvEmail = view.findViewById<TextView>(R.id.tv_email)
         tvPhone = view.findViewById<TextView>(R.id.tv_phone)
@@ -49,8 +54,18 @@ class AkunFragment : Fragment() {
         btnKeranjang = view.findViewById(R.id.btn_keranjang)
         btnTentang = view.findViewById(R.id.btn_tentang)
         btnRiwayat = view.findViewById(R.id.btn_riwayat)
+        btnUpdate = view.findViewById(R.id.btn_ubahPassword)
+        btnProfie = view.findViewById(R.id.btn_editProfile)
 
         s = SharedPref(requireActivity())
+
+        btnProfie.setOnClickListener {
+            requireActivity().startActivity(Intent(requireActivity(), UpdateProfileActivity::class.java))
+        }
+
+        btnUpdate.setOnClickListener {
+            requireActivity().startActivity(Intent(requireActivity(), UpdatePasswordActivity::class.java))
+        }
 
         btnLogout.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
@@ -93,15 +108,6 @@ class AkunFragment : Fragment() {
         return view
     }
 
-//    private fun replaceFragment(fragment : Fragment){
-//
-//        val fragmentManager = supportFragmentManager
-//        val fragmentTransaction = fragmentManager.beginTransaction()
-//        fragmentTransaction.replace(R.id.container,fragment)
-//        fragmentTransaction.commit()
-//
-//    }
-
     fun setData(){
         if (s.getUser() == null){
             val intent  = Intent(activity, LoginActivity::class.java)
@@ -118,11 +124,4 @@ class AkunFragment : Fragment() {
         tvPhone.text = user.phone
     }
 
-//    private fun init(view: View) {
-//        btnLogout = view.findViewById<TextView>(R.id.btn_logout)
-//        tvNama = view.findViewById<TextView>(R.id.tv_nama)
-//        tvEmail = view.findViewById<TextView>(R.id.tv_email)
-//        tvPhone = view.findViewById<TextView>(R.id.tv_phone)
-//
-//    }
 }

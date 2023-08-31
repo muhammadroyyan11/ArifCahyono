@@ -70,6 +70,22 @@ interface ApiService {
         @Path("id") id: Int
     ): Call<ResponModel>
 
+    @FormUrlEncoded
+    @POST("updatePassword")
+    fun updatePassword(
+        @Field("email") email: String,
+        @Field("password") password: String,
+    ): Call<ResponModel>
+
+    @FormUrlEncoded
+    @POST("updateProfile")
+    fun updateProfile(
+        @Field("old_email") old_email: String,
+        @Field("email") email: String,
+        @Field("name") name: String,
+        @Field("phone") nomortlp: String,
+    ): Call<ResponModel>
+
     @Multipart
     @POST("chekout/upload/{id}")
     fun uploadBukti(

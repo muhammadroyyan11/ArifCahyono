@@ -91,6 +91,8 @@
         <activity android:name=".activity.RiwayatActivity" />
         <activity android:name=".activity.DetailTransaksiActivity" />
         <activity android:name=".payment.PaymentGateway" />
+        <activity android:name="com.cahyono.tokoonline.activity.UpdatePasswordActivity" />
+        <activity android:name="com.cahyono.tokoonline.activity.UpdateProfileActivity" />
 
         <service
             android:name=".firebase.MyFirebaseMessagingService"

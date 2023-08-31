@@ -277,7 +277,7 @@ class PengirimanActivity : AppCompatActivity() {
         //to be
 
         SdkUIFlowBuilder.init()
-            .setClientKey("SB-Mid-client-n81rlwsHsWFiWZW9") // client_key is mandatory
+            .setClientKey("SB-Mid-client-6uqVHRlfborUyr-N") // client_key is mandatory
             .setContext(applicationContext) // context is mandatory
             .setTransactionFinishedCallback({
                     result -> isDestroyed
