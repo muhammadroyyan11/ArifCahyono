@@ -12,10 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.cahyono.tokoonline.MainActivity
 import com.cahyono.tokoonline.R
-import com.cahyono.tokoonline.activity.LoginActivity
-import com.cahyono.tokoonline.activity.RiwayatActivity
-import com.cahyono.tokoonline.activity.UpdatePasswordActivity
-import com.cahyono.tokoonline.activity.UpdateProfileActivity
+import com.cahyono.tokoonline.activity.*
 import com.cahyono.tokoonline.helper.SharedPref
 import kotlinx.android.synthetic.main.fragment_akun.*
 
@@ -30,11 +27,13 @@ class AkunFragment : Fragment() {
     lateinit var tvPhone:TextView
     lateinit var tvEmail:TextView
     lateinit var btnListAlamat:RelativeLayout
-    lateinit var btnKeranjang:RelativeLayout
-    lateinit var btnTentang:RelativeLayout
+    lateinit var btnThroughput:RelativeLayout
+//    lateinit var btnTentang:RelativeLayout
     lateinit var btnRiwayat: RelativeLayout
     lateinit var btnUpdate: RelativeLayout
     lateinit var btnProfie: RelativeLayout
+
+
 
     lateinit var sm: FragmentManager
 
@@ -51,8 +50,8 @@ class AkunFragment : Fragment() {
         tvEmail = view.findViewById<TextView>(R.id.tv_email)
         tvPhone = view.findViewById<TextView>(R.id.tv_phone)
         btnListAlamat = view.findViewById(R.id.btn_settingAlamat)
-        btnKeranjang = view.findViewById(R.id.btn_keranjang)
-        btnTentang = view.findViewById(R.id.btn_tentang)
+        btnThroughput = view.findViewById(R.id.btn_ThroughputTest)
+        //btnTentang = view.findViewById(R.id.btn_tentang_akun)
         btnRiwayat = view.findViewById(R.id.btn_riwayat)
         btnUpdate = view.findViewById(R.id.btn_ubahPassword)
         btnProfie = view.findViewById(R.id.btn_editProfile)
@@ -65,6 +64,10 @@ class AkunFragment : Fragment() {
 
         btnUpdate.setOnClickListener {
             requireActivity().startActivity(Intent(requireActivity(), UpdatePasswordActivity::class.java))
+        }
+
+        btnThroughput.setOnClickListener {
+            requireActivity().startActivity(Intent(requireActivity(), Throughput::class.java))
         }
 
         btnLogout.setOnClickListener(object : View.OnClickListener {
@@ -94,18 +97,27 @@ class AkunFragment : Fragment() {
             startActivity(chooser)
         }
 
-        btnKeranjang.setOnClickListener {
-//            startActivity(Intent(requireActivity(), KeranjangFragment::class.java))
-            val keranjang = KeranjangFragment()
-            sm.beginTransaction().replace(R.id.keranjang, keranjang).commit()
-        }
+//        btnKeranjang.setOnClickListener {
+//            when(R.id.keranjang){
+//                R.id.keranjang -> replaceFragment(KeranjangFragment())
+//            }
+//        }
 
-        btnTentang.setOnClickListener {
-            startActivity(Intent(requireActivity(), AboutFragment::class.java))
-        }
+//        btnTentang.setOnClickListener {
+//            startActivity(Intent(requireActivity(), AboutFragment::class.java))
+//        }
 
         setData()
         return view
+    }
+
+    private fun replaceFragment(fragment : Fragment){
+
+        val fragmentManager = sm
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.container,fragment)
+        fragmentTransaction.commit()
+
     }
 
     fun setData(){

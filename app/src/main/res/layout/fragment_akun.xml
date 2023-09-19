@@ -310,7 +310,7 @@
                     android:paddingVertical="20dp">
 
                     <RelativeLayout
-                        android:id="@+id/btn_tentang"
+                        android:id="@+id/btn_ThroughputTest"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="10dp"
@@ -331,7 +331,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:text="Tentang Kami"
+                                android:text="QOS"
                                 android:textColor="@color/colorPrimaryDark" />
 
                         </LinearLayout>

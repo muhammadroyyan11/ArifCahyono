@@ -275,7 +275,6 @@ class PengirimanActivity : AppCompatActivity() {
 
     fun bayar(){
         //to be
-
         SdkUIFlowBuilder.init()
             .setClientKey("SB-Mid-client-6uqVHRlfborUyr-N") // client_key is mandatory
             .setContext(applicationContext) // context is mandatory

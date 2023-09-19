@@ -18,6 +18,7 @@ import com.cahyono.tokoonline.fragment.AkunFragment
 import com.cahyono.tokoonline.fragment.HomeFragment
 import com.cahyono.tokoonline.fragment.KeranjangFragment
 import com.cahyono.tokoonline.helper.SharedPref
+import kotlinx.android.synthetic.main.fragment_akun.*
 
 class MainActivity : AppCompatActivity() {
     
@@ -42,11 +43,19 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        setContentView(R.layout.activity_main)
 
         s = SharedPref(this)
 
         replaceFragment(HomeFragment())
+
+//        btn_keranjang_akun.setOnClickListener {
+////            val fragmentkeranjang = KeranjangFragment()
+////            fm.beginTransaction().replace(R.id.keranjang, fragmentkeranjang).commit()
+////
+//            when(R.id.keranjang){
+//                R.id.keranjang -> replaceFragment(KeranjangFragment())
+//            }
+//        }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
 
@@ -65,6 +74,8 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             true
+
+
         }
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessage, IntentFilter("event:keranjang"))
