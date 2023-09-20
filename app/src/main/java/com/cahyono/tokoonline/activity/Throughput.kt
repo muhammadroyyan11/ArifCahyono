@@ -119,6 +119,9 @@ class Throughput : AppCompatActivity() {
         override fun onPostExecute(result: Double?) {
             super.onPostExecute(result)
             // Display the throughput result in the TextView
+
+
+            println("Throughput Result: ${result?.toString()}")
             resultTextView.text = "Throughput Result: ${result?.toString()}"
         }
     }
