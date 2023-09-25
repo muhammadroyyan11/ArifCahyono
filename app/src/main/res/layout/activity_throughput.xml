@@ -35,4 +35,18 @@
         android:layout_height="wrap_content"
         android:text="Result: "
         android:textSize="18sp" />
+
+    <Button
+    android:layout_marginTop="100dp"
+    android:id="@+id/delayBtn"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Start Delay Test" />
+
+    <TextView
+        android:id="@+id/resultDelay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Result: "
+        android:textSize="18sp" />
 </LinearLayout>

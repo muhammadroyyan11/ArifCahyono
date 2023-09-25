@@ -13,14 +13,21 @@ import android.widget.TextView
 import com.cahyono.tokoonline.R
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 
 
 class Throughput : AppCompatActivity() {
     private lateinit var startTestButton: Button
     private lateinit var packetLossBtn: Button
+    private lateinit var delayBtn: Button
     private lateinit var resultTextView: TextView
     private lateinit var resultPacketLoss: TextView
+    private lateinit var resultDelay: TextView
+
 
     private lateinit var downloadManager: DownloadManager
     private var downloadId: Long = 0
@@ -32,7 +39,9 @@ class Throughput : AppCompatActivity() {
 
         startTestButton = findViewById(R.id.startTestButton)
         packetLossBtn = findViewById(R.id.packetLossBtn)
+        delayBtn = findViewById(R.id.delayBtn)
         resultTextView = findViewById(R.id.resultTextView)
+        resultDelay = findViewById(R.id.resultDelay)
         resultPacketLoss = findViewById(R.id.resultPacketLoss)
 
         downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -51,6 +60,30 @@ class Throughput : AppCompatActivity() {
             // Start the throughput test when the button is clicked
             ThroughputTestTask().execute()
         }
+
+        delayBtn.setOnClickListener {
+            delayTest()
+        }
+    }
+
+    suspend fun simulateNetworkRequest(): String {
+        delay(3000) // Simulate a 3-second delay (adjust as needed)
+        return "Network response data"
+    }
+
+    fun delayTest() = runBlocking {
+        println("Start of testing")
+
+        // Simulate a network request
+        val result = withContext(Dispatchers.IO) {
+            simulateNetworkRequest()
+        }
+
+        // Once the delay is complete, you can work with the result
+        println("Network request completed with result: $result")
+
+        // You can add more testing scenarios with delays here
+        println("End of testing")
     }
 
     fun testPacketLoss(destinationIpAddress: String, pingCount: Int) {
