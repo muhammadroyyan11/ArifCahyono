@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+
 import java.util.concurrent.Executors
 
 
@@ -62,7 +63,7 @@ class Throughput : AppCompatActivity() {
         }
 
         delayBtn.setOnClickListener {
-            delayTest()
+            mainDelay()
         }
     }
 
@@ -71,19 +72,42 @@ class Throughput : AppCompatActivity() {
         return "Network response data"
     }
 
-    fun delayTest() = runBlocking {
-        println("Start of testing")
+    fun delayTest(host: String) : Long? {
+        try {
+            val process = ProcessBuilder("ping", "-c", "4", host).start()
+            val reader = BufferedReader(InputStreamReader(process.inputStream))
+            val output = StringBuilder()
+            var line: String?
 
-        // Simulate a network request
-        val result = withContext(Dispatchers.IO) {
-            simulateNetworkRequest()
+            while (reader.readLine().also { line = it } != null) {
+                output.append(line).append("\n")
+            }
+
+            process.waitFor()
+
+            // Extract the latency from the ping output
+            val latencyMatch = Regex("time=([0-9.]+)").find(output.toString())
+            val latency = latencyMatch?.groupValues?.get(1)?.toDoubleOrNull()
+
+            return (latency?.times(1000))?.toLong()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
 
-        // Once the delay is complete, you can work with the result
-        println("Network request completed with result: $result")
+        return null
+    }
 
-        // You can add more testing scenarios with delays here
-        println("End of testing")
+    fun mainDelay () {
+        val host = "153.92.13.60" // Replace with the host you want to ping
+        val latency = delayTest(host)
+
+        if (latency != null) {
+            println("Network latency to $host is ${latency}ms")
+            resultDelay.text = "Result: ${latency}"
+        } else {
+            println("Failed to measure network latency.")
+            resultDelay.text = "Failed to measure network latency."
+        }
     }
 
     fun testPacketLoss(destinationIpAddress: String, pingCount: Int) {
